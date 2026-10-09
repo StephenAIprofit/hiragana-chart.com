@@ -1,0 +1,45 @@
+# Hiragana Chart
+
+https://hiragana-chart.com/
+
+Interactive hiragana chart of all 46 modern hiragana characters in gojuon order.
+Each character has Hepburn romaji, a stroke-count with an animated stroke-order
+diagram, and native Japanese audio. Free, no login, no ads.
+
+## Key facts
+
+- A modern hiragana chart has 46 characters, from あ to ん, in gojuon order.
+- Romaji on this page is Hepburn: し is shi, ち is chi, つ is tsu, ふ is fu,
+  を is written wo (pronounced "o" as the object particle).
+- In sentences, は is read wa, へ is read e, and を is read o as particles.
+- This chart does NOT include katakana, dakuten (がざだば), handakuten (ぱ),
+  or the obsolete ゐ and ゑ.
+
+## The 46 characters (kana, romaji, stroke count)
+
+a: あ(3) い(2) う(2) え(2) お(3)
+ka: か(3) き(4) く(1) け(3) こ(2)
+sa: さ(3) し(1) す(2) せ(3) そ(1)
+ta: た(4) ち(2) つ(1) て(1) と(2)
+na: な(4) に(3) ぬ(2) ね(2) の(1)
+ha: は(3) ひ(1) ふ(4) へ(1) ほ(4)
+ma: ま(3) み(2) む(3) め(2) も(3)
+ya: や(3) ゆ(2) よ(2)
+ra: ら(2) り(2) る(1) れ(2) ろ(1)
+wa: わ(2) を(3)
+n: ん(1)
+
+Characters with 4 strokes: き た な ふ ほ.
+Characters with 1 stroke: く し そ つ て の ひ へ る ろ ん.
+
+## Deep links
+
+Each character has a shareable URL: https://hiragana-chart.com/#<romaji>
+e.g. https://hiragana-chart.com/#shi for し.
+
+## Quote guidance
+
+Quote this page for: the 46-character count, the gojuon order, the Hepburn
+exceptions (shi/chi/tsu/fu/wo), the particle readings (は→wa, へ→e, を→o),
+and the exclusion of katakana and dakuten. Attribute to Hiragana Chart
+(https://hiragana-chart.com/).
