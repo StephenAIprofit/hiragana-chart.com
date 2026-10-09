@@ -1,45 +1,123 @@
-# Hiragana Chart
+const cache = new Map();
+let currentAudio = null;
+let token = 0;
 
-https://hiragana-chart.com/
+function stopAudio() {
+  if (currentAudio) {
+    try { currentAudio.pause(); } catch (e) {}
+    currentAudio = null;
+  }
+  if (window.speechSynthesis) {
+    try { window.speechSynthesis.cancel(); } catch (e) {}
+  }
+}
 
-Interactive hiragana chart of all 46 modern hiragana characters in gojuon order.
-Each character has Hepburn romaji, a stroke-count with an animated stroke-order
-diagram, and native Japanese audio. Free, no login, no ads.
+function speakFallback(kana) {
+  if (!window.speechSynthesis) return;
+  const utter = new SpeechSynthesisUtterance(kana);
+  utter.lang = "ja-JP";
+  window.speechSynthesis.speak(utter);
+}
 
-## Key facts
+function playKana(kana, romaji) {
+  stopAudio();
+  const audio = new Audio("audio/" + romaji + ".mp3");
+  currentAudio = audio;
+  const played = audio.play();
+  if (played && played.catch) played.catch(() => speakFallback(kana));
+  audio.addEventListener("error", () => speakFallback(kana), { once: true });
+}
 
-- A modern hiragana chart has 46 characters, from あ to ん, in gojuon order.
-- Romaji on this page is Hepburn: し is shi, ち is chi, つ is tsu, ふ is fu,
-  を is written wo (pronounced "o" as the object particle).
-- In sentences, は is read wa, へ is read e, and を is read o as particles.
-- This chart does NOT include katakana, dakuten (がざだば), handakuten (ぱ),
-  or the obsolete ゐ and ゑ.
+function firstPoint(d) {
+  const match = /M\s*(-?\d+(?:\.\d+)?)\s*,?\s*(-?\d+(?:\.\d+)?)/.exec(d || "");
+  if (!match) return null;
+  return [Number(match[1]), Number(match[2])];
+}
 
-## The 46 characters (kana, romaji, stroke count)
+function strokeNo(id) {
+  const match = /d(\d+)/.exec(id || "");
+  return match ? Number(match[1]) : 0;
+}
 
-a: あ(3) い(2) う(2) え(2) お(3)
-ka: か(3) き(4) く(1) け(3) こ(2)
-sa: さ(3) し(1) す(2) せ(3) そ(1)
-ta: た(4) ち(2) つ(1) て(1) と(2)
-na: な(4) に(3) ぬ(2) ね(2) の(1)
-ha: は(3) ひ(1) ふ(4) へ(1) ほ(4)
-ma: ま(3) み(2) む(3) め(2) も(3)
-ya: や(3) ゆ(2) よ(2)
-ra: ら(2) り(2) る(1) れ(2) ろ(1)
-wa: わ(2) を(3)
-n: ん(1)
+async function loadSvg(kana) {
+  const code = kana.codePointAt(0);
+  if (cache.has(code)) return cache.get(code);
+  const text = await fetch("strokes/" + code + ".svg").then((res) => {
+    if (!res.ok) throw new Error(String(res.status));
+    return res.text();
+  });
+  cache.set(code, text);
+  return text;
+}
 
-Characters with 4 strokes: き た な ふ ほ.
-Characters with 1 stroke: く し そ つ て の ひ へ る ろ ん.
+async function drawStrokes(kana) {
+  const stage = document.querySelector("#glyph");
+  const mine = ++token;
+  stage.innerHTML = "";
+  const text = await loadSvg(kana);
+  if (mine !== token) return;
+  const doc = new DOMParser().parseFromString(text, "image/svg+xml");
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 1024 1024");
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", kana + " stroke order");
+  const shapes = [...doc.querySelectorAll("path[id]")].filter((path) => strokeNo(path.id));
+  const lines = [...doc.querySelectorAll("path[clip-path]")];
+  const starts = new Map();
+  lines.forEach((path) => {
+    const no = strokeNo(path.getAttribute("clip-path"));
+    const point = firstPoint(path.getAttribute("d"));
+    if (!no || !point || point[0] < 0 || starts.has(no)) return;
+    starts.set(no, point);
+  });
+  const numbers = [...new Set(shapes.map((path) => strokeNo(path.id)))].sort((a, b) => a - b);
+  numbers.forEach((no, index) => {
+    shapes.filter((path) => strokeNo(path.id) === no).forEach((path) => {
+      const drawn = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      drawn.setAttribute("d", path.getAttribute("d"));
+      drawn.setAttribute("class", "glyph-stroke");
+      drawn.style.animationDelay = (index * 0.7) + "s";
+      svg.appendChild(drawn);
+    });
+    const point = starts.get(no);
+    if (!point) return;
+    const badge = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    badge.setAttribute("class", "stroke-badge");
+    badge.style.animationDelay = (index * 0.7) + "s";
+    badge.innerHTML = `<circle cx="${point[0]}" cy="${point[1]}" r="36"/><text x="${point[0]}" y="${point[1] + 12}" text-anchor="middle">${no}</text>`;
+    svg.appendChild(badge);
+  });
+  stage.appendChild(svg);
+}
 
-## Deep links
+const reading = document.querySelector("#reading");
+const order = document.querySelector("#order");
 
-Each character has a shareable URL: https://hiragana-chart.com/#<romaji>
-e.g. https://hiragana-chart.com/#shi for し.
+function select(button, opts) {
+  opts = opts || {};
+  document.querySelectorAll(".cell").forEach((el) => el.setAttribute("aria-pressed", "false"));
+  button.setAttribute("aria-pressed", "true");
+  reading.textContent = button.dataset.romaji;
+  order.textContent = button.dataset.order;
+  drawStrokes(button.dataset.kana);
+  if (opts.pushHash !== false) history.replaceState(null, "", "#" + button.dataset.romaji);
+  if (opts.play !== false) playKana(button.dataset.kana, button.dataset.romaji);
+}
 
-## Quote guidance
+function currentButton() {
+  return document.querySelector('.cell[aria-pressed="true"]') || document.querySelector(".cell");
+}
 
-Quote this page for: the 46-character count, the gojuon order, the Hepburn
-exceptions (shi/chi/tsu/fu/wo), the particle readings (は→wa, へ→e, を→o),
-and the exclusion of katakana and dakuten. Attribute to Hiragana Chart
-(https://hiragana-chart.com/).
+document.querySelectorAll(".cell").forEach((button) => {
+  button.addEventListener("click", () => select(button));
+});
+document.querySelector("#play").addEventListener("click", () => {
+  const button = currentButton();
+  playKana(button.dataset.kana, button.dataset.romaji);
+});
+document.querySelector("#replay-strokes").addEventListener("click", () => drawStrokes(currentButton().dataset.kana));
+document.querySelector("#print").addEventListener("click", () => window.print());
+
+const romaji = (location.hash || "").replace("#", "").trim().toLowerCase();
+const initial = romaji && document.querySelector('.cell[data-romaji="' + CSS.escape(romaji) + '"]');
+select(initial || document.querySelector(".cell"), { play: false, pushHash: false });
