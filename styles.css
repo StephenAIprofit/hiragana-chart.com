@@ -46,9 +46,15 @@ h1 { font-family: "Fraunces", "Noto Serif JP", serif; font-size: clamp(2.4rem, 5
 .strokes { margin: 4px 0 0; color: var(--muted); font-size: 0.82rem; }
 .detail {
   background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px;
-  display: grid; grid-template-columns: 160px 1fr; gap: 18px; align-items: center;
+  display: grid; grid-template-columns: 280px 1fr; gap: 18px; align-items: start;
 }
-.big { font-family: "Noto Serif JP", serif; font-size: 7rem; line-height: 0.9; margin: 0; }
+.glyph { background: #fff; border: 1px solid var(--line); border-radius: 14px; min-height: 280px; }
+.glyph svg { width: 100%; height: auto; display: block; }
+.glyph-stroke { fill: var(--ink); opacity: 0; animation: appear 0.35s ease forwards; }
+.stroke-badge { opacity: 0; animation: appear 0.2s ease forwards; }
+.stroke-badge circle { fill: var(--red); }
+.stroke-badge text { fill: #fff; font-size: 32px; font-family: "IBM Plex Sans", sans-serif; font-weight: 700; }
+@keyframes appear { to { opacity: 1; } }
 button.play, button.print {
   border: 0; border-radius: 999px; background: var(--red); color: #fff; font: inherit; font-weight: 600;
   padding: 10px 16px; cursor: pointer;
