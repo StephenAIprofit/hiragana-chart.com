@@ -21,7 +21,7 @@ a { color: var(--indigo); }
 .wrap { width: min(1080px, calc(100% - 32px)); margin: 0 auto; }
 .nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; gap: 16px; }
 .brand { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; font-weight: 600; }
-.mark { width: 36px; height: 36px; border-radius: 8px; background: var(--ink); color: #fff; display: grid; place-items: center; font-family: "Noto Serif JP", serif; }
+.mark { width: 36px; height: 36px; border-radius: 8px; display: block; object-fit: cover; }
 .nav-links { display: flex; gap: 16px; flex-wrap: wrap; }
 .nav-links a { color: var(--muted); text-decoration: none; }
 h1 { font-family: "Fraunces", "Noto Serif JP", serif; font-size: clamp(2.4rem, 5vw, 4.2rem); line-height: 0.98; letter-spacing: -0.03em; margin: 8px 0 12px; }
