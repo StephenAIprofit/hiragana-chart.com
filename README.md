@@ -1,36 +1,74 @@
-# hiragana-chart.com
+# Hiragana Chart
 
-单页。主词 hiragana chart。46 个平假名、笔顺动画、点击读真人发音（预录 MP3）。没有片假名。
+Live site: https://hiragana-chart.com/
 
-## 文件
+A static site for the 46 modern hiragana characters, plus a kana quiz.
 
-- `index.html` / `styles.css` / `app.js` — 页面
-- `audio/*.mp3` — 46 个假名真人发音（日语母语者音色预录，懒加载，点击才请求）
-- `og-image.png` — 社交分享图 1200x630
-- `llms.txt` — 给 AI 爬虫的完整图表数据（AEO）
-- `robots.txt` / `sitemap.xml`
+## Pages
 
-## 交互
+| Page | URL | What it does |
+| --- | --- | --- |
+| Chart | https://hiragana-chart.com/ | Gojuon table, stroke order, native audio, printable table |
+| Quiz | https://hiragana-chart.com/quiz | 46-character quiz, instant score, combo, wrong-answer review |
 
-- 点击格子：显示大字 + 罗马音 + 笔顺动画（按笔画顺序描画，编号标在起笔处）+ 播放发音
-- Play audio：重播当前假名发音；Replay strokes：重播笔顺动画
-- 深链：`hiragana-chart.com/#shi` 打开直接选中 し
-- 页面加载不自动发音（之前版本有个 bug：加载即朗读，已修）
+## Chart page
 
-## 部署
+- 46 characters, あ to ん, in gojuon order.
+- Romaji is Hepburn: し shi, ち chi, つ tsu, ふ fu, を wo.
+- Click a character to hear the reading and watch the stroke order.
+- Stroke diagrams come from animCJK `svgsJaKana`. Each file is `strokes/<unicode>.svg`, for example `strokes/12354.svg` for あ.
+- Deep link: `https://hiragana-chart.com/#shi` opens し.
+- Printable table is on the same page.
 
-1. 把这个目录推到 GitHub，仓库名可用 hiragana-chart.com。
-2. Vercel：Add New → Project → Import 这个仓库 → Deploy。没有环境变量。
-3. Cloudflare 添加站点 hiragana-chart.com，免费套餐。把 Cloudflare 给的 2 个 NS 填到 Namecheap。
-4. Namecheap：Domain List → Manage → Nameservers → Custom DNS。
-5. Vercel 添加域名 hiragana-chart.com。Cloudflare SSL/TLS 选 Full (Strict)。
-6. 主域名用不带 www 的。www 做 301。http 跳 https。
-7. 打开 https://hiragana-chart.com/ 确认页面后，再提交 Google Search Console 和 sitemap。
-8. 发音 MP3 走 Vercel 静态托管即可（共 356KB，懒加载，不影响首屏）。
+## Quiz page
 
-## 改动记录（2026-10-09 v2）
+- Default set is the 46 hiragana characters. The Katakana tab uses the matching 46 katakana.
+- Two directions: romaji to kana, and kana to romaji.
+- A correct answer adds a combo. A wrong answer shows the correct character, plays the sound, and stores the item for review.
+- Hiragana wrong answers link to the chart stroke order, for example `/#ka`.
+- Score, combo, and review run in the browser.
 
-- 发音从 speechSynthesis 改为预录 MP3：各设备系统日语语音缺失/发音不准的问题彻底解决
-- 笔顺图加逐笔描画动画 + 编号移到起笔处 + Replay strokes 按钮
-- 修 bug：页面加载不再自动朗读
-- SEO/AEO：标题收紧、加 favicon/theme-color/og:image、发音指南区块、FAQ 3→10 条并同步 FAQPage schema、llms.txt 扩充完整数据、#hash 深链
+## Audio
+
+Audio files live in `audio/<romaji>.mp3`.
+
+Examples: `audio/a.mp3`, `audio/shi.mp3`, `audio/tsu.mp3`, `audio/fu.mp3`, `audio/wo.mp3`, `audio/n.mp3`.
+
+The chart and the quiz both use these files.
+
+## Repo layout
+
+```
+index.html          chart page
+styles.css          chart styles
+app.js              chart audio and stroke order
+audio/              46 mp3 files
+strokes/            46 animCJK SVG files
+logo.png            header mark
+favicon-48.png
+favicon-192.png
+apple-touch-icon.png
+og-image.png
+quiz/index.html     quiz page
+quiz/quiz.css
+quiz/quiz.js
+sitemap.xml
+robots.txt
+llms.txt
+```
+
+Quiz assets use absolute paths: `/quiz/quiz.css` and `/quiz/quiz.js`.
+
+## Deploy
+
+The site is a static site on Vercel, with the domain `hiragana-chart.com` on Namecheap.
+
+After a content change:
+
+1. Commit and push to GitHub.
+2. Wait for the Vercel deployment.
+3. In Google Search Console, resubmit `https://hiragana-chart.com/sitemap.xml` when a new page is added.
+
+## Attribution
+
+Stroke diagrams: animCJK `svgsJaKana`.
