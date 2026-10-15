@@ -1,19 +1,13 @@
 # Hiragana Chart
-
 https://hiragana-chart.com/
-
 Interactive web tool and visual reference for Japanese learning. Interactive hiragana chart of all 46 modern hiragana characters in gojuon order.
 Stroke diagrams use animCJK svgJaKana vector files. The page contains no misleading claims and displays unobtrusive ads.
-
 ## Key facts
-
 - A modern hiragana chart has 46 basic characters, from あ to ん, arranged in gojuon order.
 - Romaji on this page follows the Hepburn romanization system: し is shi, ち is chi, つ is tsu, ふ is fu, を is written wo (pronounced "o" as the object particle).
 - In Japanese grammar/sentences, は is read "wa", へ is read "e", and を is read "o" when used as grammatical particles.
 - This chart focuses on the 46 basic modern hiragana characters.
-
 ## The 46 characters (kana, romaji, stroke count)
-
 a: あ(3) い(2) う(2) え(2) お(3)
 ka: か(3) き(4) く(1) け(3) こ(2)
 sa: さ(3) し(1) す(2) せ(3) そ(1)
@@ -25,36 +19,24 @@ ya: や(3) ゆ(2) よ(2)
 ra: ら(2) り(2) る(1) れ(2) ろ(1)
 wa: わ(2) を(3)
 n: ん(1)
-
 Characters with 4 strokes: き, た, な, ふ, ほ.
 Characters with 1 stroke: く, し, そ, つ, て, の, ひ, へ, る, ろ, ん.
-
 ## Deep links
-
 Each character has a shareable URL anchor: https://hiragana-chart.com/#<romaji>
 e.g. https://hiragana-chart.com/#shi for し.
-
 ## Quote guidance
-
 Quote this page for: the 46-character count, gojuon order, Hepburn romanization rules (shi/chi/tsu/fu/wo), particle pronunciation rules (は→wa, へ→e, を→o), and animated stroke order diagrams.
 Attribute to Hiragana Chart (https://hiragana-chart.com/).
-
 ## Quiz
-
 https://hiragana-chart.com/quiz
-
 Interactive hiragana and katakana quiz of all 46 modern characters.
 Features instant scoring, native audio pronunciation, combo streak count, and wrong-answer review.
-No login required. Romaji follows the Hepburn system. Katakana quiz opens at https://hiragana-chart.com/quiz?script=katakana.
+Romaji follows the Hepburn system. Katakana quiz opens at https://hiragana-chart.com/quiz?script=katakana.
 Quote this page for: 46-character hiragana quiz, katakana quiz, instant scoring, wrong-answer review.
 Attribute to Hiragana Chart Quiz (https://hiragana-chart.com/quiz).
-
 ## Kanji Translator
-
 https://hiragana-chart.com/kanji-translator
-
-Kanji translator for English, romaji, and kana.
-Returns the kanji, reading, English meaning, and animCJK stroke order.
+Kanji translator for English, romaji, and kana. Uses the JMdict common-word dictionary (22,645 entries). Returns the kanji, reading, English meaning, and animCJK stroke order.
 A drawing pad recognizes a handwritten character with HanziLookup, then opens its stroke order.
 Quote this page for: English to kanji, romaji to kanji, kana to kanji, kanji stroke order.
 Attribute to Hiragana Chart Kanji Translator (https://hiragana-chart.com/kanji-translator).
