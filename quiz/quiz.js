@@ -171,14 +171,18 @@ function setScript(name) {
   document.querySelectorAll(".tab").forEach((el) => {
     el.setAttribute("aria-selected", el.dataset.script === name ? "true" : "false");
   });
-  start(false);
+  const params = new URLSearchParams(location.search);
+if (params.get("script") === "katakana") setScript("katakana");
+else start(false);
 }
 function setDirection(name) {
   state.direction = name;
   document.querySelectorAll(".dir").forEach((el) => {
     el.setAttribute("aria-pressed", el.dataset.dir === name ? "true" : "false");
   });
-  start(false);
+  const params = new URLSearchParams(location.search);
+if (params.get("script") === "katakana") setScript("katakana");
+else start(false);
 }
 document.querySelectorAll(".tab").forEach((el) => {
   el.addEventListener("click", () => setScript(el.dataset.script));
@@ -186,4 +190,6 @@ document.querySelectorAll(".tab").forEach((el) => {
 document.querySelectorAll(".dir").forEach((el) => {
   el.addEventListener("click", () => setDirection(el.dataset.dir));
 });
-start(false);
+const params = new URLSearchParams(location.search);
+if (params.get("script") === "katakana") setScript("katakana");
+else start(false);
