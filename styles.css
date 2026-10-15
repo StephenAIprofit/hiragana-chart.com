@@ -60,6 +60,9 @@ a.quiz-cta, button.play, button.print {
   padding: 10px 16px; cursor: pointer;
 }
 button.play.ghost { background: transparent; color: var(--red); border: 2px solid var(--red); padding: 8px 14px; }
+a.quiz-cta.ghost { background: #fff; color: var(--red); border: 2px solid var(--red); }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.site-banner { display: flex; gap: 16px; flex-wrap: wrap; margin: 0 0 8px; }
 .no-print .play + .play { margin-left: 8px; }
 ol { margin: 8px 0 0; padding-left: 18px; }
 .section { padding: 28px 0; }
