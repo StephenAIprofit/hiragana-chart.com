@@ -82,3 +82,12 @@ footer { border-top: 1px solid var(--line); color: var(--muted); padding: 22px 0
   body { background: #fff; }
   .grid { display: none; }
 }
+
+.script-switch { display: flex; gap: 8px; margin: 16px 0; }
+.script-btn { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 8px 16px; font: inherit; cursor: pointer; }
+.script-btn[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; margin: 12px 0 16px; }
+.cell { border: 1px solid var(--line); background: #fff; border-radius: 12px; padding: 8px; cursor: pointer; text-align: center; }
+.cell .kana { display: block; font-size: 1.6rem; }
+.cell .romaji { display: block; color: var(--muted); font-size: 0.85rem; }
+section { margin: 28px 0; }
