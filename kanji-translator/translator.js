@@ -45,18 +45,17 @@ function renderResults(rows, query) {
   results.innerHTML = "";
   if (!rows.length) {
     results.innerHTML = '<p class="empty">No results for "' + query.replace(/"/g, "") + '".</p>';
-    if (hasKanji(query)) showStroke(query.trim()[0], query.trim(), "", "");
     return;
   }
   rows.forEach((row) => {
     const card = document.createElement("article");
     card.className = "card";
-    card.innerHTML = '<div class="kj">' + row.k + '</div><div><b>' + row.r + '</b> · ' + row.r + '<div class="meta">' + row.e + '</div></div>';
-    card.addEventListener("click", () => showStroke(row.k[0], row.k, row.r + " · " + row.r, row.e));
+    card.innerHTML = '<div class="kj">' + row.k + '</div><div class="reading">' + row.r + '</div><div class="meta">' + row.e + '</div>';
+    card.addEventListener("click", () => { if (hasKanji(row.k)) showStroke(row.k[0], row.k, row.r, row.e); });
     results.appendChild(card);
   });
   const first = rows[0];
-  showStroke(first.k[0], first.k, first.r, first.e);
+  if (hasKanji(first.k)) showStroke(first.k[0], first.k, first.r, first.e);
 }
 function strokeNo(id) {
   const match = /d(\d+)/.exec(id || "");
