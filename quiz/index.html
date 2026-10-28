@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hiragana Quiz: Test All 46 Characters | Hiragana Chart</title>
+  <meta name="description" content="Free hiragana quiz: test all 46 characters with instant score, audio, and wrong-answer review. No login. Pair it with the Hiragana chart and stroke order.">
+  <link rel="canonical" href="https://hiragana-chart.com/quiz">
+  <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+  <meta property="og:title" content="Hiragana Quiz: Test All 46 Characters | Hiragana Chart">
+  <meta property="og:description" content="Free hiragana quiz: test all 46 characters with instant score, audio, and wrong-answer review. No login.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hiragana-chart.com/quiz">
+  <meta property="og:image" content="https://hiragana-chart.com/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=IBM+Plex+Sans:wght@400;600&family=Noto+Sans+JP:wght@400;500&family=Noto+Serif+JP:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/nav.css">
+  <link rel="stylesheet" href="/quiz/quiz.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Quiz","name":"Hiragana Quiz","url":"https://hiragana-chart.com/quiz","about":"Hiragana","educationalLevel":"Beginner","inLanguage":"en","isAccessibleForFree":true,"description":"Interactive quiz of all 46 modern hiragana characters with instant scoring, audio, and wrong-answer review."}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How many characters are in a hiragana quiz?","acceptedAnswer":{"@type":"Answer","text":"A basic hiragana quiz covers 46 characters, from あ to ん."}},
+    {"@type":"Question","name":"What romaji does this hiragana quiz use?","acceptedAnswer":{"@type":"Answer","text":"Hepburn. し is shi, ち is chi, つ is tsu, ふ is fu, and を is written wo."}},
+    {"@type":"Question","name":"Do I need an account for this hiragana quiz?","acceptedAnswer":{"@type":"Answer","text":"No. Score, combo, and wrong-answer review all run in the browser."}}
+  ]}
+  </script>
+</head>
+<body>
+  <header class="wrap nav">
+    <a class="brand" href="/"><img class="mark" src="/logo.png" width="36" height="36" alt="Hiragana Chart logo"><span>Hiragana Chart</span></a>
+    <button class="hamburger" type="button" aria-label="Menu">☰</button>
+    <nav class="nav-links" aria-label="Site">
+      <a href="/">Home</a>
+      <div class="dropdown">
+        <button class="nav-btn" type="button">Chart ▾</button>
+        <div class="dropdown-menu">
+          <a href="/#chart">Hiragana 46</a>
+          <a href="/#dakuten">Dakuten & Handakuten</a>
+          <a href="/#yoon">Yoon</a>
+          <a href="/#katakana">Katakana</a>
+          <a href="/#special">Special Kana</a>
+          <a href="/#stroke-order">Stroke order guide</a>
+        </div>
+      </div>
+      <a href="/quiz" class="active">Quiz</a>
+      <a href="/kanji-translator">Kanji Translator</a>
+    </nav>
+  </header>
+  <main class="wrap">
+    <p class="kicker">Free · no login</p>
+    <p class="crumb"><a href="/">Hiragana chart</a> / Hiragana quiz</p>
+    <h1 id="quiz-title">Hiragana Quiz</h1>
+    <p class="lede" id="quiz-lede">Test all 46 Hiragana characters. Instant score, audio on every answer, and wrong answers go back into practice. Switch to Katakana on the same page.</p>
+    <div class="tabs" role="tablist">
+      <button class="tab" type="button" data-script="hiragana" aria-selected="true">Hiragana</button>
+      <button class="tab" type="button" data-script="katakana" aria-selected="false">Katakana</button>
+    </div>
+    <div class="tabs" role="group" aria-label="Mode">
+      <button class="mode" type="button" data-mode="characters" aria-pressed="true">Characters</button>
+      <button class="mode" type="button" data-mode="words" aria-pressed="false">Words</button>
+    </div>
+    <div class="tabs" role="group" aria-label="Difficulty">
+      <button class="level" type="button" data-level="basic" aria-pressed="true">L1 Basic 46</button>
+      <button class="level" type="button" data-level="dakuten" aria-pressed="false">L2 + Dakuten</button>
+      <button class="level" type="button" data-level="yoon" aria-pressed="false">L3 + Yoon</button>
+      <button class="level" type="button" data-level="all" aria-pressed="false">L4 All</button>
+    </div>
+    <div class="tabs" role="group" aria-label="Question direction">
+      <button class="dir" type="button" data-dir="romaji" aria-pressed="true">Romaji → Kana</button>
+      <button class="dir" type="button" data-dir="kana" aria-pressed="false">Kana → Romaji</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="score">0</b><span>Score</span></div>
+      <div class="stat"><b id="combo">0</b><span>Combo</span></div>
+      <div class="stat"><b id="accuracy">0%</b><span>Accuracy</span></div>
+      <div class="stat"><b id="count">1 / 46</b><span>Progress</span></div>
+    </div>
+    <div class="progress" aria-hidden="true"><i></i></div>
+    <section class="board" id="play">
+      <p id="ask">Which character matches this reading?</p>
+      <p class="prompt" id="prompt">ka</p>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+    </section>
+    <section class="board hidden" id="result"></section>
+    <section class="section" id="faq">
+      <h2>Quiz questions</h2>
+      <h3>How does this quiz work?</h3>
+      <p>Each round covers the selected set in random order. Pick the matching character or reading. A correct answer adds a combo. A wrong answer shows the correct kana, plays the sound, and saves the item for review.</p>
+      <h3>What is the Words mode?</h3>
+      <p>Words mode shows a simple English word. Pick the correct kana spelling. Example: school is がっこう. This is the hiragana words quiz.</p>
+      <h3>What are the four levels?</h3>
+      <p>L1 is the basic 46. L2 adds dakuten and handakuten (71). L3 adds yoon (107). L4 is the full set. Katakana uses the same levels.</p>
+      <h3>What Romaji does the quiz use?</h3>
+      <p>Hepburn Romaji. し is shi, ち is chi, つ is tsu, ふ is fu, and を is written wo.</p>
+      <h3>What is Katakana used for?</h3>
+      <p>Katakana writes foreign loanwords, names, and emphasis. The sounds match Hiragana. Switch the tab to practice Katakana.</p>
+      <h3>How do I practice Katakana?</h3>
+      <p>Select the Katakana tab. The title, questions, and FAQ switch to Katakana. Use the chart at <a href="/#katakana">Katakana version</a> to review.</p>
+      <h3>Do wrong answers come back?</h3>
+      <p>Yes. A wrong answer is saved for review and returns later in the same session.</p>
+    </section>
+  </main>
+    <section class="section">
+      <h2>How this quiz works</h2>
+      <p>Characters mode shows a reading or a kana and asks you to pick the match. Words mode shows an English word and asks for the kana spelling. Wrong answers return later in the same round. Switch to Katakana to practice the same levels in the other script. Your score stays in this browser.</p>
+    </section>
+  <footer class="wrap">
+    <p><a href="/">Hiragana chart and stroke order</a> · <a href="/quiz">Hiragana quiz</a> · <a href="/kanji-translator">Kanji Translator</a></p>
+        <p><a href="/about">About</a> · <a href="/privacy">Privacy</a></p>
+    </div>
+  </footer>
+  <script src="/nav.js"></script>
+  <script src="/quiz/quiz.js"></script>
+</body>
+</html>
