@@ -3,15 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>About Hiragana Chart</title>
-  <meta name="description" content="Why Hiragana Chart exists: a one-stop tool for kana pronunciation, stroke order, quiz, and kanji lookup, built from a learner's own problems.">
+  <title>Why I created this site | Hiragana Chart</title>
+  <meta name="description" content="Why I built Hiragana Chart for Western learners of Japanese who need pronunciation, stroke order, practice, and Kanji lookup in one place.">
   <link rel="canonical" href="https://hiragana-chart.com/about">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=IBM+Plex+Sans:wght@400;600&family=Noto+Sans+JP:wght@400;500&family=Noto+Serif+JP:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/nav.css">
 </head>
 <body>
-  <header class="wrap">
-    <a class="brand" href="/">Hiragana Chart</a>
+  <header class="wrap nav">
+    <a class="brand" href="/"><img class="mark" src="/logo.png" width="36" height="36" alt="Hiragana Chart logo"><span>Hiragana Chart</span></a>
+    <button class="hamburger" type="button" aria-label="Menu">☰</button>
     <nav class="nav-links" aria-label="Site">
       <a href="/">Home</a>
       <div class="dropdown">
@@ -31,18 +35,17 @@
   </header>
   <main class="wrap">
     <p class="kicker">About</p>
-    <h1>Why this site exists</h1>
+    <h1>Why I created this site</h1>
     <p>When I started learning Japanese, the charts I found were just tables. I could see the characters, but I could not hear them, and I could not see how they were written. I ended up memorizing shapes or replaying recordings. That was slow, and it did not stick.</p>
     <p>I wanted to hear a character the moment I clicked it, and watch the strokes in order. So I built the chart. Then I wanted to test myself without opening another site, so I added the Quiz. Later I needed to look up Kanji I could not type, so I added the Translator with a drawing pad.</p>
-    <p>All of these came from problems I hit while learning. The site is one place for kana pronunciation, stroke order, practice, and Kanji lookup. I made it for people learning Japanese who want the basics in one tool, without an account.</p>
+    <p>Western learners of Japanese face an extra step that native readers do not: they must learn Kanji from scratch. A table of kana is not enough. This site puts pronunciation, stroke order, practice, and Kanji lookup in one place, so a learner does not have to jump between tools. I made it because those were the problems I hit, and I wanted one tool that solved them.</p>
     <h2>Send a note</h2>
     <p>If something is wrong, or you have a suggestion, write here. It goes to my email.</p>
     <form class="contact" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
       <label>Email<br><input type="email" name="email" required></label>
-      <label>Message<br><textarea name="message" rows="5" required></textarea></label>
+      <label>Message<br><textarea name="message" rows="6" required></textarea></label>
       <button class="go" type="submit">Send</button>
     </form>
-    <p class="note">Replace YOUR_FORM_ID with your Formspree form ID. Free at formspree.io.</p>
   </main>
   <footer>
     <div class="wrap">
