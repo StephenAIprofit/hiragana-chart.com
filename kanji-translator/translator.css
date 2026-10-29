@@ -17,7 +17,7 @@ body {
   line-height: 1.6;
 }
 a { color: var(--indigo); }
-.wrap { width: min(860px, calc(100% - 32px)); margin: 0 auto; }
+.wrap { width: min(1080px, calc(100% - 32px)); margin: 0 auto; }
 .nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; gap: 16px; }
 .brand { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; font-weight: 600; }
 .mark { width: 36px; height: 36px; border-radius: 8px; display: block; object-fit: cover; }
