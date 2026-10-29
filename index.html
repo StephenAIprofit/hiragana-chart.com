@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hiragana Chart: 46 Characters, Stroke Order & Audio</title>
-  <meta name="description" content="Free hiragana chart: all 46 characters in gojuon order, with animated stroke-order diagrams, Hepburn romaji, and native audio. No login.">
+  <title>Hiragana Chart: 46 Characters plus Dakuten and Yoon</title>
+  <meta name="description" content="Free hiragana chart: 46 basic characters, plus dakuten and yoon (107 total), with stroke-order diagrams, Hepburn romaji, and Japanese audio pronunciation. No login.">
   <meta name="theme-color" content="#f6f1e7">
   <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
   <link rel="icon" href="/favicon-192.png" sizes="192x192" type="image/png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="canonical" href="https://hiragana-chart.com/">
   <meta property="og:title" content="Hiragana Chart: 46 Characters, Stroke Order & Audio">
-  <meta property="og:description" content="All 46 hiragana characters, with stroke-order diagrams and native audio. Free, no login.">
+  <meta property="og:description" content="46 basic characters, plus dakuten and yoon (107 total), with stroke-order diagrams and Japanese audio pronunciation. Free, no login.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://hiragana-chart.com/">
   <meta property="og:image" content="https://hiragana-chart.com/og-image.png">
@@ -28,7 +28,7 @@
   <script type="application/ld+json">
   {"@context":"https://schema.org","@graph":[
     {"@type":"WebSite","name":"Hiragana Chart","url":"https://hiragana-chart.com/"},
-    {"@type":"WebApplication","name":"Hiragana Chart","url":"https://hiragana-chart.com/","applicationCategory":"EducationalApplication","operatingSystem":"Web","inLanguage":"en","browserRequirements":"Requires JavaScript for audio playback and animated stroke diagrams","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Interactive hiragana chart of all 46 modern characters with Hepburn romaji, animated stroke-order diagrams, and native Japanese audio."},
+    {"@type":"WebApplication","name":"Hiragana Chart","url":"https://hiragana-chart.com/","applicationCategory":"EducationalApplication","operatingSystem":"Web","inLanguage":"en","browserRequirements":"Requires JavaScript for audio playback and animated stroke diagrams","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Interactive hiragana chart of all 46 modern characters with Hepburn romaji, animated stroke-order diagrams, and Japanese audio pronunciation."},
     {"@type":"FAQPage","mainEntity":[
 
       {"@type":"Question","name":"How do I read a hiragana chart?","acceptedAnswer":{"@type":"Answer","text":"Read left to right, top to bottom. Each row shares a consonant: the ka row is ka ki ku ke ko. Empty cells in the ya and wa rows are sounds that do not exist in modern Japanese."}},      {"@type":"Question","name":"How many characters are on a hiragana chart?","acceptedAnswer":{"@type":"Answer","text":"A modern hiragana chart has 46 characters. It starts with あいうえお and ends with ん. The obsolete ゐ and ゑ are not included."}},
@@ -68,7 +68,7 @@
   <main class="wrap">
     <p class="kicker">Free · no login</p>
     <h1 id="page-title">Learn all 46 Hiragana and Katakana</h1>
-    <p class="lede" id="page-lede">For beginners who need the 46 characters, stroke order, and a quick quiz. Click a character to hear it and watch its stroke order. Romaji is Hepburn.</p>
+    <p class="lede" id="page-lede">Basic 46, plus dakuten and yoon for 107 in total. Click a character to hear it and watch its stroke order. Romaji is Hepburn.</p>
     <p class="no-print actions">
       <a class="quiz-cta" href="/quiz">Take the Hiragana Quiz</a>
       <a class="quiz-cta ghost" href="/quiz?script=katakana">Take the Katakana Quiz</a>
@@ -77,11 +77,7 @@
       <button class="script-btn" type="button" data-script="hiragana" aria-pressed="true">Hiragana</button>
       <button class="script-btn" type="button" data-script="katakana" aria-pressed="false">Katakana</button>
     </div>
-        <section class="section" id="how-to-use">
-      <h2>How to use this chart</h2>
-      <p>Click any character in the table. The panel above shows its reading and stroke order. Press Play audio to hear it. Use the Hiragana / Katakana switcher to change the whole table. The Quiz tests the same characters. The Kanji Translator looks up a character by drawing or by typing English, Romaji, or kana.</p>
-    </section>
-    <section class="detail" id="chart" aria-live="polite">
+        <section class="detail" id="chart" aria-live="polite">
       <div id="glyph" class="glyph" aria-label="Stroke order diagram"></div>
       <div>
         <p class="romaji" id="reading"></p>
@@ -106,37 +102,11 @@
     </section>
     <section id="katakana">
       <h2>Katakana version</h2>
-      <p>Select Katakana in the switcher above. The basic 46, dakuten, and yoon tables switch to Katakana. Special kana stay the same.</p>
-    </section>
-    <section id="special">
-      <h2>Sokuon & Long Vowels</h2>
-      <p>Sokuon っ / ッ doubles the next consonant. Tap an example to hear it.</p>
-      <p class="examples">
-        <button class="word-btn" type="button" data-audio="gakkou">がっこう</button>
-        <button class="word-btn" type="button" data-audio="kitte">きって</button>
-        <button class="word-btn" type="button" data-audio="zutto">ずっと</button>
-        <button class="word-btn" type="button" data-audio="yappari">やっぱり</button>
-      </p>
-      <p>Long vowels: Katakana uses ー (コーヒー, コンピューター). Hiragana uses おう, おお, or えい (おかあさん, とおい, せんせい).</p>
+      <p>Select Katakana in the switcher above. The basic 46, dakuten, and yoon tables switch to Katakana. Sokuon and long vowels follow Katakana rules; see the Sokuon question in the FAQ.</p>
     </section>
     <section id="stroke-order">
-      <h2>Stroke order</h2>
-      <p>Click a character to see numbered strokes. Basic 46 and dakuten use one diagram. Yoon shows the base character and the small kana side by side, and the stroke count is the sum.</p>
-      <p>If a diagram is missing, the panel shows the reading and the note: Stroke order animation is not available. Audio only.</p>
-    </section>
-<section class="section" id="pronunciation">
-      <h2>Hiragana pronunciation guide</h2>
-      <p>Read the chart in gojūon order: each row adds a consonant to the five vowels あ (a), い (i), う (u), え (e), お (o). Say them "ah, ee, oo, eh, oh" — short and even, never stressed. か is "ka", き is "ki", and so on across the row.</p>
-      <p>Five readings trip up beginners: し is <b>shi</b> (not "si"), ち is <b>chi</b> (not "ti"), つ is <b>tsu</b> (not "tu"), ふ is <b>fu</b> — a soft blow between "h" and "f", and を is written <b>wo</b> but sounds like "o". ん is a syllabic "n" that hums through the nose. Click any character above to hear it.</p>
-      <p>In real sentences three characters change sound as particles: は is read <b>wa</b>, へ is read <b>e</b>, and を is read <b>o</b>. On this chart you see their dictionary readings: ha, he, wo.</p>
-      <h3>Three tips that actually work</h3>
-      <ol>
-        <li>Learn one row a day in gojūon order — あ行, か行, さ行 — and say each character out loud as you write it.</li>
-        <li>Write by hand and follow the stroke order above; your hand remembers what your eyes forget.</li>
-        <li>Test yourself backwards (o, e, u, i, a) and shuffled. If you only know あ→お order, you don't know them yet.</li>
-      </ol>
-    </section>
-    <section class="section" id="table">
+      <section class="section" id="pronunciation">
+      <section class="section" id="table">
       <h2>Printable Hiragana chart</h2>
       <p class="no-print"><button class="print" id="print" type="button">Print this table</button></p>
       <table>
