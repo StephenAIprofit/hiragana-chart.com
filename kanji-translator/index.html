@@ -52,8 +52,6 @@
       <button class="tab" type="button" data-mode="type" aria-selected="false">Type</button>
     </div>
     <section class="hand" id="draw-panel">
-      <h2>Draw a Kanji</h2>
-      <p>Write one Kanji in the box. Handwriting recognition looks up the character. This is the draw mode of the Kanji translator.</p>
       <canvas class="pad" id="pad" width="256" height="256"></canvas>
       <p>
         <button class="cmd" id="undo" type="button">Undo</button>
@@ -63,7 +61,6 @@
       <div class="matches" id="matches"></div>
     </section>
     <section id="type-panel">
-      <h2>Type a word</h2>
       <form class="row" id="form">
         <input id="q" type="search" placeholder="love, ai, or あい" autocomplete="off">
         <button class="go" type="submit">Translate</button>
