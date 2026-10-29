@@ -194,6 +194,9 @@ function quizHref(hash) {
 function setScript(name) {
   state.script = name;
   const isK = name === "katakana";
+  document.querySelectorAll(".printable").forEach((el) => {
+    el.hidden = el.dataset.script !== name;
+  });
   document.querySelectorAll(".script-btn").forEach((el) => {
     el.setAttribute("aria-pressed", el.dataset.script === name ? "true" : "false");
   });
