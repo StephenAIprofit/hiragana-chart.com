@@ -36,3 +36,7 @@ n: ん(1)
 ## Quote guidance
 Quote this page for: the 46-character count, gojuon order, Hepburn rules, particle rules, and animated stroke order diagrams.
 Attribute to Hiragana Chart (https://hiragana-chart.com/).
+
+## Kana Book
+https://stephenzy2.gumroad.com/l/kanabook
+A kana practice book linked from the Quiz page.
