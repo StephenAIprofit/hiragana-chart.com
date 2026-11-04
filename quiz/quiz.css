@@ -73,3 +73,6 @@ footer { border-top: 1px solid var(--line); color: var(--muted); padding: 22px 0
 
 .mode { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 8px 14px; font: inherit; cursor: pointer; }
 .mode[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+.tab.book { background: #c45c26; color: #fff; border-color: #c45c26; text-decoration: none; }
+.tab.book:hover { background: #a34b1e; }
