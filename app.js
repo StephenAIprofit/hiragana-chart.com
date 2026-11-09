@@ -220,7 +220,6 @@ function setScript(name) {
   renderGrid("yoon-grid", YOON, true);
   renderTable();
   if (isK) history.replaceState(null, "", "#katakana");
-  startLoop();
 }
 document.querySelectorAll(".script-btn").forEach((el) => {
   el.addEventListener("click", () => setScript(el.dataset.script));
@@ -245,9 +244,6 @@ document.querySelectorAll(".word-btn").forEach((el) => {
   el.addEventListener("click", () => play(el.dataset.audio, el.textContent));
 });
 const hash = (location.hash || "").replace("#", "");
-if (hash === "katakana") setScript("katakana");
-else setScript("hiragana");
-
 let looping = true;
 function startLoop() {
   looping = true;
@@ -265,4 +261,7 @@ function startLoop() {
 document.addEventListener("click", (e) => {
   if (e.target.closest(".cell")) looping = false;
 });
+
+if (hash === "katakana") setScript("katakana");
+else setScript("hiragana");
 startLoop();
