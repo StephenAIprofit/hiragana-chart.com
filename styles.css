@@ -113,11 +113,32 @@ details p { margin: 8px 0 0; }
 .mode-hint { color: var(--red); font-size: 0.95rem; margin: 6px 0; }
 
 @media print {
-  body.print-hiragana * { display: none !important; }
-  body.print-hiragana #table, body.print-hiragana #table * { display: revert !important; }
-  body.print-hiragana #table { display: block !important; }
-  body.print-katakana * { display: none !important; }
-  body.print-katakana #table-k, body.print-katakana #table-k * { display: revert !important; }
-  body.print-katakana #table-k { display: block !important; }
   .no-print { display: none !important; }
+  body.print-hiragana header,
+  body.print-hiragana footer,
+  body.print-hiragana nav,
+  body.print-hiragana .detail,
+  body.print-hiragana #chart,
+  body.print-hiragana #dakuten,
+  body.print-hiragana #yoon,
+  body.print-hiragana #faq,
+  body.print-hiragana #confusables,
+  body.print-hiragana #table-k,
+  body.print-hiragana .script-switch,
+  body.print-hiragana .actions { display: none !important; }
+  body.print-hiragana #table { display: block !important; }
+  body.print-katakana header,
+  body.print-katakana footer,
+  body.print-katakana nav,
+  body.print-katakana .detail,
+  body.print-katakana #chart,
+  body.print-katakana #dakuten,
+  body.print-katakana #yoon,
+  body.print-katakana #faq,
+  body.print-katakana #confusables,
+  body.print-katakana #table,
+  body.print-katakana .script-switch,
+  body.print-katakana .actions { display: none !important; }
+  body.print-katakana #table-k { display: block !important; }
+  body.print-katakana #table-k[hidden] { display: block !important; }
 }

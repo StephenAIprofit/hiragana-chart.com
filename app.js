@@ -237,10 +237,12 @@ function doPrint(which) {
   looping = false;
   document.body.classList.remove("print-hiragana", "print-katakana");
   document.body.classList.add(which);
+  const target = document.getElementById(which === "print-katakana" ? "table-k" : "table");
+  if (target) target.hidden = false;
   setTimeout(() => {
     window.print();
     document.body.classList.remove("print-hiragana", "print-katakana");
-  }, 50);
+  }, 80);
 }
 document.getElementById("print") && document.getElementById("print").addEventListener("click", () => doPrint("print-hiragana"));
 document.getElementById("print-k") && document.getElementById("print-k").addEventListener("click", () => doPrint("print-katakana"));
