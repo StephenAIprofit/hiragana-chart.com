@@ -32,6 +32,9 @@ n: ん(1)
 - Kanji Translator: https://hiragana-chart.com/kanji-translator
 - About: https://hiragana-chart.com/about
 - Privacy: https://hiragana-chart.com/privacy
+- Hiragana Quiz guide: https://hiragana-chart.com/hiragana-quiz-guide
+- Confusable kana: https://hiragana-chart.com/confusable-kana
+- Dakuten and Yoon: https://hiragana-chart.com/dakuten-yoon-guide
 
 ## Quote guidance
 Quote this page for: the 46-character count, gojuon order, Hepburn rules, particle rules, and animated stroke order diagrams.
