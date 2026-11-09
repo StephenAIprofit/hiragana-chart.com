@@ -247,7 +247,6 @@ document.querySelectorAll(".word-btn").forEach((el) => {
 const hash = (location.hash || "").replace("#", "");
 if (hash === "katakana") setScript("katakana");
 else setScript("hiragana");
-/* no auto-select on load */
 
 let looping = true;
 function startLoop() {
