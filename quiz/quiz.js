@@ -208,6 +208,13 @@ function finish() {
   document.getElementById("again").addEventListener("click", () => start(false));
   renderStats();
 }
+
+function updateHint() {
+  const el = document.getElementById("mode-hint");
+  if (!el) return;
+  el.hidden = !(state.mode === "words" && state.script === "katakana");
+}
+
 function setScript(name) {
   const title = document.getElementById("quiz-title");
   const lede = document.getElementById("quiz-lede");
@@ -221,6 +228,7 @@ function setScript(name) {
   if (h && k) { h.hidden = name === "katakana"; k.hidden = name !== "katakana"; }
 
   state.script = name;
+  updateHint();
   document.querySelectorAll(".tab").forEach((el) => {
     el.setAttribute("aria-selected", el.dataset.script === name ? "true" : "false");
   });
@@ -298,6 +306,7 @@ function answerWord(item, chosen, btn) {
 }
 function setMode(name) {
   state.mode = name;
+  updateHint();
   document.querySelectorAll(".mode").forEach((el) => {
     el.setAttribute("aria-pressed", el.dataset.mode === name ? "true" : "false");
   });
