@@ -111,3 +111,13 @@ details { margin: 10px 0; border-bottom: 1px solid var(--line); padding-bottom: 
 details summary { cursor: pointer; font-weight: 600; }
 details p { margin: 8px 0 0; }
 .mode-hint { color: var(--red); font-size: 0.95rem; margin: 6px 0; }
+
+@media print {
+  body.print-hiragana * { display: none !important; }
+  body.print-hiragana #table, body.print-hiragana #table * { display: revert !important; }
+  body.print-hiragana #table { display: block !important; }
+  body.print-katakana * { display: none !important; }
+  body.print-katakana #table-k, body.print-katakana #table-k * { display: revert !important; }
+  body.print-katakana #table-k { display: block !important; }
+  .no-print { display: none !important; }
+}

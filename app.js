@@ -233,13 +233,17 @@ document.getElementById("replay-strokes").addEventListener("click", () => {
   const cell = [...document.querySelectorAll(".cell")].find((el) => el.querySelector(".romaji").textContent === reading);
   if (cell) cell.click();
 });
-function doPrint() {
+function doPrint(which) {
   looping = false;
-  document.querySelectorAll(".stroke-board .drawn").forEach((el) => { el.style.animation = "none"; });
-  setTimeout(() => window.print(), 50);
+  document.body.classList.remove("print-hiragana", "print-katakana");
+  document.body.classList.add(which);
+  setTimeout(() => {
+    window.print();
+    document.body.classList.remove("print-hiragana", "print-katakana");
+  }, 50);
 }
-document.getElementById("print") && document.getElementById("print").addEventListener("click", doPrint);
-document.getElementById("print-k") && document.getElementById("print-k").addEventListener("click", doPrint);
+document.getElementById("print") && document.getElementById("print").addEventListener("click", () => doPrint("print-hiragana"));
+document.getElementById("print-k") && document.getElementById("print-k").addEventListener("click", () => doPrint("print-katakana"));
 document.querySelectorAll(".word-btn").forEach((el) => {
   el.addEventListener("click", () => play(el.dataset.audio, el.textContent));
 });
