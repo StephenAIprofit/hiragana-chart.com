@@ -200,10 +200,10 @@ function setScript(name) {
   document.querySelectorAll(".script-btn").forEach((el) => {
     el.setAttribute("aria-pressed", el.dataset.script === name ? "true" : "false");
   });
-  document.getElementById("page-title").textContent = isK ? "Katakana Chart" : "Hiragana Chart";
+  document.getElementById("page-title").textContent = isK ? "Katakana Chart: 46 basic, 107 with Dakuten and Yoon" : "Hiragana Chart: 46 basic, 107 with Dakuten and Yoon";
   document.getElementById("page-lede").textContent = isK
-    ? "A Katakana chart lists the same 46 characters, dakuten, and yoon. Click a character to hear it and watch its stroke order. Romaji on this page is Hepburn."
-    : "A Hiragana chart lists all 46 modern Hiragana characters in gojuon order, from あ to ん. Click a character to hear it and watch its stroke order. Romaji on this page is Hepburn.";
+    ? "Basic 46, plus dakuten and yoon for 107 in total. Click a character to hear it and watch its stroke order. Romaji is Hepburn."
+    : "Basic 46, plus dakuten and yoon for 107 in total. Click a character to hear it and watch its stroke order. Romaji is Hepburn.";
   document.getElementById("dakuten-title").textContent = isK ? "Katakana dakuten and handakuten" : "Hiragana dakuten and handakuten";
   document.getElementById("dakuten-note").textContent = isK
     ? "Dakuten add two dots (ガ ザ ダ バ). Handakuten add a circle (パ ピ プ ペ ポ). In modern Japanese, ヂ is read ji and ヅ is read zu."
@@ -220,6 +220,7 @@ function setScript(name) {
   renderGrid("yoon-grid", YOON, true);
   renderTable();
   if (isK) history.replaceState(null, "", "#katakana");
+  startLoop();
 }
 document.querySelectorAll(".script-btn").forEach((el) => {
   el.addEventListener("click", () => setScript(el.dataset.script));
@@ -233,7 +234,13 @@ document.getElementById("replay-strokes").addEventListener("click", () => {
   const cell = [...document.querySelectorAll(".cell")].find((el) => el.querySelector(".romaji").textContent === reading);
   if (cell) cell.click();
 });
-document.getElementById("print-k") && document.getElementById("print-k").addEventListener("click", () => window.print());
+function doPrint() {
+  looping = false;
+  document.querySelectorAll(".stroke-board .drawn").forEach((el) => { el.style.animation = "none"; });
+  setTimeout(() => window.print(), 50);
+}
+document.getElementById("print") && document.getElementById("print").addEventListener("click", doPrint);
+document.getElementById("print-k") && document.getElementById("print-k").addEventListener("click", doPrint);
 document.querySelectorAll(".word-btn").forEach((el) => {
   el.addEventListener("click", () => play(el.dataset.audio, el.textContent));
 });

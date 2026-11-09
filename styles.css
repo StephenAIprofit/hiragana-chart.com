@@ -106,3 +106,8 @@ section { margin: 28px 0; }
 .sokuon-examples { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0 20px; }
 .word-btn { font-family: "Noto Serif JP", serif; font-size: 1.15rem; padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px; background: #fff; cursor: pointer; }
 .word-btn:hover { border-color: var(--ink); }
+
+details { margin: 10px 0; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+details summary { cursor: pointer; font-weight: 600; }
+details p { margin: 8px 0 0; }
+.mode-hint { color: var(--red); font-size: 0.95rem; margin: 6px 0; }
