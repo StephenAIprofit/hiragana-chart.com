@@ -694,7 +694,7 @@ def char_page(e, script, prev_e, next_e):
     <section class="section">
       <h2>{rel_title}</h2>
       <div class="link-grid">{rel}</div>
-      <p><a href="{chart}{anchor}">See {k} on the full {name} chart</a> · <a class="quiz-cta" href="{quiz}{quiz_hash}">Quiz this set</a></p>
+      <p class="no-print actions"><a class="quiz-cta" href="{quiz}{quiz_hash}">Quiz this set</a> <a href="{chart}{anchor}">See {k} on the full {name} chart</a></p>
     </section>
     <nav class="pager" aria-label="Previous and next">{pager}</nav>
   </main>
