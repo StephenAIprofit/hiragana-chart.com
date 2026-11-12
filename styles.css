@@ -177,3 +177,8 @@ table.facts .jp { font-size: 1.4rem; }
   body.print-table #table { display: block !important; }
 }
 table.facts td a { color: var(--indigo); text-decoration: underline; display: inline; }
+.workbook-cta { margin: 18px 0 0; padding: 14px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.workbook-cta p { margin: 0; flex: 1 1 260px; }
+.workbook-btn { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; background: #c45c26; color: #fff; border-radius: 999px; padding: 10px 16px; font-weight: 600; text-decoration: none; }
+.workbook-btn:hover { background: #a34b1e; }
+.book-icon { flex: none; }
