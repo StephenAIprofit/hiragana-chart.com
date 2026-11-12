@@ -29,7 +29,7 @@ h1 { font-family: "Fraunces", "Noto Serif JP", serif; font-size: clamp(2.2rem, 5
 .crumb { color: var(--muted); margin: 0 0 8px; }
 .row { display: flex; gap: 8px; margin: 16px 0; }
 input[type="search"] {
-  flex: 1; border: 1px solid var(--line); border-radius: 12px; background: #fff;
+  flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: 12px; background: #fff;
   font: inherit; padding: 12px 14px;
 }
 button.go, button.cmd {

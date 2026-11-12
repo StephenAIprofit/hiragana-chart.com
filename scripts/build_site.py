@@ -83,6 +83,18 @@ def to_script(h_char, script):
     return h_char if script == "hiragana" else H2K[h_char]
 
 
+WORKBOOK_URL = "https://stephenzy2.gumroad.com/l/kanabook"
+BOOK_ICON = ('<svg class="book-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">'
+             '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5" '
+             'fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>'
+             '<path d="M8 8h8M8 12h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>')
+
+
+def is_thin(e, script):
+    """Pages without an example word are short and mostly template text: keep them out of the index."""
+    return SCRIPTS[script]["words"].get(e["slug"]) is None
+
+
 def char_url(e, script):
     return "/%s/%s" % (script, e["slug"])
 
@@ -208,7 +220,7 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
          '  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=IBM+Plex+Sans:wght@400;600&family=Noto+Sans+JP:wght@400;500&family=Noto+Serif+JP:wght@500&display=swap" rel="stylesheet">')
 
 
-def head(title, desc, path, jsonld, og_title=None, og_desc=None, og_alt=None):
+def head(title, desc, path, jsonld, og_title=None, og_desc=None, og_alt=None, robots=None):
     url = SITE + path
     blocks = "\n".join('  <script type="application/ld+json">\n%s\n</script>' % json.dumps(j, ensure_ascii=False, indent=1)
                        for j in jsonld)
@@ -223,7 +235,7 @@ def head(title, desc, path, jsonld, og_title=None, og_desc=None, og_alt=None):
   <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
   <link rel="icon" href="/favicon-192.png" sizes="192x192" type="image/png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="canonical" href="{url}">
+  <link rel="canonical" href="{url}">{robots}
   <meta property="og:title" content="{og_title}">
   <meta property="og:description" content="{og_desc}">
   <meta property="og:type" content="website">
@@ -240,7 +252,8 @@ def head(title, desc, path, jsonld, og_title=None, og_desc=None, og_alt=None):
 {blocks}
 </head>""".format(title=E(title), desc=E(desc), url=url, site=SITE, fonts=FONTS,
                   og_title=E(og_title or title), og_desc=E(og_desc or desc),
-                  og_alt=E(og_alt or title), blocks=blocks)
+                  og_alt=E(og_alt or title), blocks=blocks,
+                  robots='\n  <meta name="robots" content="%s">' % robots if robots else "")
 
 
 def breadcrumb(items):
@@ -665,6 +678,10 @@ def char_page(e, script, prev_e, next_e):
       <h2>How to write {k}: stroke order</h2>
       {steps}
       <p>{write_tip}</p>
+      <aside class="workbook-cta no-print">
+        <p>Practise writing {k} by hand, then keep going with the rest of the kana in the workbook.</p>
+        <a class="workbook-btn" href="{wb}" target="_blank" rel="noopener">{icon}Get the Workbook · $9.90</a>
+      </aside>
     </section>
     <section class="section">
       <h2>How to pronounce {k}</h2>
@@ -677,7 +694,7 @@ def char_page(e, script, prev_e, next_e):
     <section class="section">
       <h2>{rel_title}</h2>
       <div class="link-grid">{rel}</div>
-      <p><a href="{chart}{anchor}">See {k} on the full {name} chart</a> · <a class="quiz-cta" href="{quiz}{quiz_hash}">Quiz this set</a></p>
+      <p class="no-print actions"><a class="quiz-cta" href="{quiz}{quiz_hash}">Quiz this set</a> <a href="{chart}{anchor}">See {k} on the full {name} chart</a></p>
     </section>
     <nav class="pager" aria-label="Previous and next">{pager}</nav>
   </main>
@@ -690,8 +707,9 @@ def char_page(e, script, prev_e, next_e):
            glyph=glyph, n=n, plural="" if n == 1 else "s", audio=e["audio"], steps=steps, write_tip=write_tip,
            note=note(e, script), word=word_html, facts=facts_html, conf=conf_html, rel_title=rel_title,
            rel=rel_html, chart=chart, anchor=anchor, quiz=s["quiz"], quiz_hash=quiz_hash,
-           pager=" ".join(pager), footer=FOOTER)
-    write(path.lstrip("/") + "/index.html", head(title, desc, path, jsonld) + body)
+           pager=" ".join(pager), footer=FOOTER, wb=WORKBOOK_URL, icon=BOOK_ICON)
+    robots = "noindex, follow" if is_thin(e, script) else None
+    write(path.lstrip("/") + "/index.html", head(title, desc, path, jsonld, robots=robots) + body)
 
 
 def index_page(script):
@@ -803,6 +821,8 @@ def sitemap():
             ("/privacy", "yearly", "0.3")]
     for script in ("hiragana", "katakana"):
         for e in ENTRIES:
+            if is_thin(e, script):
+                continue  # noindex pages stay out of the sitemap
             urls.append((char_url(e, script), "monthly", "0.6" if e["group"] == "basic" else "0.5"))
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',
              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
