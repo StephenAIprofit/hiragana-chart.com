@@ -317,7 +317,7 @@ document.querySelectorAll(".mode").forEach((el) => {
 });
 const params = new URLSearchParams(location.search);
 const hash = (location.hash || "").replace("#", "");
-if (params.get("script") === "katakana" || hash === "katakana") setScript("katakana");
+if (document.body.dataset.script === "katakana" || params.get("script") === "katakana" || hash === "katakana") setScript("katakana");
 else start(false);
 if (hash === "dakuten") setLevel("dakuten");
 else if (hash === "yoon") setLevel("yoon");

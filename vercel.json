@@ -1,0 +1,18 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/quiz",
+      "has": [{ "type": "query", "key": "script", "value": "katakana" }],
+      "destination": "/katakana-quiz",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(audio|strokes)/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000" }]
+    }
+  ]
+}

@@ -27,8 +27,12 @@ wa: わ(2) を(3)
 n: ん(1)
 
 ## Pages
-- Chart: https://hiragana-chart.com/
-- Quiz: https://hiragana-chart.com/quiz
+- Hiragana chart: https://hiragana-chart.com/
+- Katakana chart: https://hiragana-chart.com/katakana-chart
+- Hiragana stroke order (one page per character): https://hiragana-chart.com/hiragana
+- Katakana stroke order (one page per character): https://hiragana-chart.com/katakana
+- Hiragana quiz: https://hiragana-chart.com/quiz
+- Katakana quiz: https://hiragana-chart.com/katakana-quiz
 - Kanji Translator: https://hiragana-chart.com/kanji-translator
 - About: https://hiragana-chart.com/about
 - Privacy: https://hiragana-chart.com/privacy
