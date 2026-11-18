@@ -175,7 +175,7 @@ NAV = """<nav class="nav-links" aria-label="Site">
         <div class="dropdown-menu">
           <a href="/#chart">Hiragana chart</a>
           <a href="/#dakuten">Dakuten & Handakuten</a>
-          <a href="/#yoon">Yoon</a>
+          <a href="/yoon-chart">Yoon chart</a>
           <a href="/katakana-chart">Katakana chart</a>
           <a href="/#special">Sokuon & Long Vowels</a>
           <a href="/hiragana">Hiragana stroke order</a>
@@ -209,7 +209,7 @@ HEADER = """<header class="wrap nav">
 FOOTER = """<footer>
     <div class="wrap">
       <p class="site-banner"><a href="/kanji-translator">Kanji Translator</a><a href="/quiz">Hiragana Quiz</a><a href="/katakana-quiz">Katakana Quiz</a></p>
-      <p><a href="/">Hiragana chart</a> · <a href="/katakana-chart">Katakana chart</a> · <a href="/hiragana">Hiragana stroke order</a> · <a href="/katakana">Katakana stroke order</a></p>
+      <p><a href="/">Hiragana chart</a> · <a href="/katakana-chart">Katakana chart</a> · <a href="/hiragana">Hiragana stroke order</a> · <a href="/katakana">Katakana stroke order</a> · <a href="/yoon-chart">Yoon chart</a></p>
       <p><a href="/hiragana-quiz-guide">Hiragana Quiz guide</a> · <a href="/confusable-kana">Confusable kana</a> · <a href="/dakuten-yoon-guide">Dakuten and Yoon</a></p>
       <p><a href="/about">About</a> · <a href="/privacy">Privacy</a></p>
     </div>
@@ -436,7 +436,7 @@ def chart_page(script):
       <div class="grid" id="yoon-grid">
         {ygrid}
       </div>
-      <p class="no-print"><a class="quiz-cta" href="{quiz}#yoon">Quiz this set</a></p>
+      <p class="no-print actions"><a class="quiz-cta" href="{quiz}#yoon">Quiz this set</a> <a href="/yoon-chart">Yoon chart: all 36 combinations in hiragana and katakana</a></p>
     </section>
     <section class="section printable" id="table">
       <h2>Printable {name} chart</h2>
@@ -752,6 +752,103 @@ def index_page(script):
     write(script + "/index.html", head(title, desc, path, jsonld) + body)
 
 
+
+# --------------------------------------------------------------------------
+# Yoon chart ( /yoon-chart )
+# --------------------------------------------------------------------------
+YOON_FAQ = [
+    ("How many yoon are there?", "36: twelve base kana (き し ち に ひ み り ぎ じ ぢ び ぴ) times three small kana (ゃ ゅ ょ). Because ぢゃ, ぢゅ, and ぢょ sound the same as じゃ, じゅ, and じょ, there are 33 different sounds. Added to the 71 kana with dakuten, they make 107."),
+    ("What is the difference between きゃ and きや?", "Size. In きゃ the や is small, and the pair is read as one beat: kya. In きや both kana are full size and read as two beats: ki-ya. When you write by hand, make the small kana about half the size and place it in the lower right."),
+    ("Are Japanese combinations and yoon the same thing?", "Yes. Yoon (拗音) is the Japanese name for these combination sounds. English learning materials often call them hiragana combinations or contracted sounds. Katakana uses the same 36, plus extra combinations for loanwords such as ファ, ティ, and ウィ, which are not part of the standard yoon set."),
+    ("How do I type yoon on a keyboard?", "Type the romaji: kya gives きゃ, sha gives しゃ, cha gives ちゃ. For じゃ, ja, jya, and zya all work. For the rare ぢゃ, type dya. To get a small ゃ on its own, type xya or lya."),
+]
+
+
+def yoon_page():
+    path = "/yoon-chart"
+    title = "Yoon Chart: Hiragana and Katakana Combinations (きゃ, しゅ, ちょ)"
+    desc = ("Yoon chart with all 36 hiragana and katakana combinations, from きゃ kya to ぴょ pyo, with romaji, "
+            "example words, and a stroke order page for each. Free and printable.")
+    yoon = [e for e in ENTRIES if e["group"] == "yoon"]
+    bases = []
+    for e in yoon:
+        if e["base"] not in bases:
+            bases.append(e["base"])
+    rows = []
+    for b in bases:
+        be = BY_H[b]
+        cells = []
+        for e in [x for x in yoon if x["base"] == b]:
+            cells.append('<td><a href="%s"><b>%s</b></a> <a class="kata" href="%s">%s</a><br>%s</td>' % (
+                char_url(e, "hiragana"), e["h"], char_url(e, "katakana"), e["k"], e["romaji"]))
+        rows.append('<tr><th scope="row"><a href="%s">%s %s</a></th>%s</tr>' % (
+            char_url(be, "hiragana"), b, H2K[b], "".join(cells)))
+    words = []
+    for e in yoon:
+        for script, table in (("hiragana", H_WORDS), ("katakana", K_WORDS)):
+            w = table.get(e["slug"])
+            if w and len(words) < 40:
+                words.append((e, script, w))
+    hw = [x for x in words if x[1] == "hiragana"][:10]
+    kw = [x for x in words if x[1] == "katakana"][:8]
+
+    def word_rows(items):
+        return "".join('<tr><td><a href="%s">%s</a></td><td><span class="jp">%s</span></td><td>%s</td><td>%s</td></tr>' % (
+            char_url(e, sc), kana(e, sc), w[0], w[1], E(w[2])) for e, sc, w in items)
+
+    faq = "\n".join('      <details><summary>%s</summary><p>%s</p></details>' % qa for qa in YOON_FAQ)
+    jsonld = [faq_ld(YOON_FAQ), breadcrumb([("Hiragana Chart", "/"), ("Yoon chart", path)])]
+    body = """
+<body data-script="hiragana">
+  {header}
+  <main class="wrap">
+    <p class="crumb"><a href="/">Hiragana chart</a> / Yoon chart</p>
+    <p class="kicker">Free · printable · no login</p>
+    <h1>Yoon Chart: Hiragana and Katakana Combinations</h1>
+    <p class="lede">All 36 yoon (contracted sounds) in one table. Each one is a full-size kana from the i column plus a small ゃ, ゅ, or ょ, read together as one beat. Hiragana and katakana are side by side; click any combination for its stroke order and audio.</p>
+    <p class="no-print actions"><a class="quiz-cta" href="/quiz#yoon">Quiz the yoon</a> <button class="print" id="print" type="button">Print this chart</button></p>
+    <section class="section printable" id="table">
+      <table class="yoon-table">
+        <caption>Yoon chart: hiragana, katakana, and Hepburn romaji</caption>
+        <thead><tr><th scope="col">Base</th><th scope="col">+ ゃ / ャ</th><th scope="col">+ ゅ / ュ</th><th scope="col">+ ょ / ョ</th></tr></thead>
+        <tbody>
+          {rows}
+        </tbody>
+      </table>
+    </section>
+    <section class="section">
+      <h2>How yoon works</h2>
+      <p>Take a kana from the i column (き, し, ち, に, ひ, み, り, and the voiced ぎ, じ, ぢ, び, ぴ) and add a small ゃ, ゅ, or ょ. The i sound disappears and the two kana become one beat: き + ゃ = きゃ (kya). The small kana has no sound of its own.</p>
+      <p>Size matters. きゃ (kya) is one beat; きや (ki-ya), with a full-size や, is two. The same rule applies in katakana: キャ is one beat, キヤ is two.</p>
+      <p>Three spellings break the romaji pattern: し row gives sha, shu, sho; ち row gives cha, chu, cho; じ row gives ja, ju, jo. The ぢ row (ぢゃ, ぢゅ, ぢょ) sounds the same as じゃ, じゅ, じょ and is rare.</p>
+      <p>For the full rules, including dakuten and handakuten, read <a href="/dakuten-yoon-guide">Dakuten, Handakuten and Yoon: The Complete Guide</a>.</p>
+    </section>
+    <section class="section">
+      <h2>Common words with yoon</h2>
+      <table class="facts yoon-words"><thead><tr><th>Yoon</th><th>Hiragana word</th><th>Romaji</th><th>Meaning</th></tr></thead><tbody>{hw}</tbody></table>
+      <h3>Katakana loanwords</h3>
+      <table class="facts yoon-words"><thead><tr><th>Yoon</th><th>Katakana word</th><th>Romaji</th><th>Meaning</th></tr></thead><tbody>{kw}</tbody></table>
+    </section>
+    <section class="section" id="faq">
+      <h2>Yoon questions</h2>
+{faq}
+    </section>
+    <p class="no-print actions"><a class="quiz-cta" href="/quiz#yoon">Quiz the yoon</a> <a href="/">Back to the full hiragana chart</a></p>
+  </main>
+  {footer}
+  <script src="/nav.js"></script>
+  <script>
+    document.getElementById("print").addEventListener("click", function () {{
+      document.body.classList.add("print-table");
+      setTimeout(function () {{ window.print(); document.body.classList.remove("print-table"); }}, 80);
+    }});
+  </script>
+</body>
+</html>
+""".format(header=HEADER, rows="\n          ".join(rows), hw=word_rows(hw), kw=word_rows(kw), faq=faq, footer=FOOTER)
+    write("yoon-chart/index.html", head(title, desc, path, jsonld,
+                                        og_alt="Yoon chart: all 36 hiragana and katakana combinations") + body)
+
 # --------------------------------------------------------------------------
 # Katakana quiz (derived from quiz/index.html)
 # --------------------------------------------------------------------------
@@ -816,6 +913,7 @@ def sitemap():
     urls = [("/", "weekly", "1.0"), ("/katakana-chart", "weekly", "0.9"), ("/quiz", "weekly", "0.9"),
             ("/katakana-quiz", "weekly", "0.9"), ("/kanji-translator", "weekly", "0.9"),
             ("/hiragana", "monthly", "0.8"), ("/katakana", "monthly", "0.8"),
+            ("/yoon-chart", "monthly", "0.8"),
             ("/hiragana-quiz-guide", "monthly", "0.8"), ("/confusable-kana", "monthly", "0.8"),
             ("/dakuten-yoon-guide", "monthly", "0.8"), ("/about", "monthly", "0.5"),
             ("/privacy", "yearly", "0.3")]
@@ -841,6 +939,7 @@ def main():
         index_page(script)
         for i, e in enumerate(ENTRIES):
             char_page(e, script, ENTRIES[i - 1] if i else None, ENTRIES[i + 1] if i + 1 < len(ENTRIES) else None)
+    yoon_page()
     katakana_quiz()
     update_hand_written()
     urls = sitemap()
