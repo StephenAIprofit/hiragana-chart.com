@@ -716,7 +716,7 @@ def index_page(script):
     s = SCRIPTS[script]
     name = s["name"]
     path = "/" + script
-    title = "%s Stroke Order: All 107 Characters with Diagrams" % name
+    title = "%s Stroke Order Chart: All 107 Characters with Diagrams" % name
     desc = ("Stroke order diagrams for every %s character: the basic 46, dakuten, handakuten, and yoon. "
             "Numbered strokes, audio, and example words for each." % name.lower())
     sections = []
@@ -733,7 +733,7 @@ def index_page(script):
   <main class="wrap">
     <p class="crumb"><a href="/">Hiragana chart</a> / {name} stroke order</p>
     <p class="kicker">Free · no login</p>
-    <h1>{name} stroke order</h1>
+    <h1>{name} stroke order chart</h1>
     <p class="lede">Pick a character to see its numbered strokes one by one, hear it, and learn an example word. The number after each reading is the stroke count.</p>
     <p class="no-print actions"><a class="quiz-cta" href="{chart}">Open the {name} chart</a> <a class="quiz-cta ghost" href="{quiz}">Take the {name} Quiz</a></p>
     {sections}
