@@ -193,3 +193,7 @@ a.quiz-cta { display: inline-block; white-space: nowrap; text-decoration: none; 
   table.yoon-words th, table.yoon-words td { padding: 6px 4px; }
   table.yoon-words .jp { font-size: 1.1rem; }
 }
+/* Ad slots */
+.ad-slot { margin: 24px 0; padding: 10px 12px 12px; border: 1px dashed var(--line); border-radius: 12px; background: var(--card); }
+.ad-label { margin: 0 0 6px; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.sponsored { font-size: 0.85rem; }

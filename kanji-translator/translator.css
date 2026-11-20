@@ -80,3 +80,7 @@ footer { border-top: 1px solid var(--line); color: var(--muted); padding: 22px 0
 .tabs { display: flex; gap: 8px; margin: 12px 0; }
 .tab { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 8px 16px; font: inherit; cursor: pointer; }
 .tab[aria-selected="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+/* Ad slots */
+.ad-slot { margin: 24px 0; padding: 10px 12px 12px; border: 1px dashed var(--line); border-radius: 12px; background: var(--card, #fffdf8); }
+.ad-label { margin: 0 0 6px; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.sponsored { font-size: 0.85rem; }

@@ -933,6 +933,57 @@ def sitemap():
     return [SITE + u for u, _, _ in urls]
 
 
+# --------------------------------------------------------------------------
+# Ads (Adsterra). Set a value to None to switch that unit off, then rebuild.
+# --------------------------------------------------------------------------
+ADS = {
+    # Native Banner: one per page, inside the content (not on About or Privacy)
+    "native": ('<script async="async" data-cfasync="false" '
+               'src="https://bauval.org/21/5c2cfe4e3ff98da5883dca9ac6078266"></script>\n'
+               '<div id="container-5c2cfe4e3ff98da5883dca9ac6078266"></div>'),
+    # Social Bar: site-wide, loaded at the end of <body>
+    "social": '<script data-cfasync="false" src="https://bauval.org/14/279534a20f1ef3932b92981035fd79eb"></script>',
+    # Smartlink: a clearly labelled "Sponsored" link in the footer
+    "smartlink": "https://araplhn.org/4/e5b0d610cd28171b069e67d4611ca605",
+}
+NO_NATIVE = {"about", "privacy"}
+AD_MARK = re.compile(r"\n?[ \t]*<!-- ad:(\w+) -->.*?<!-- /ad:\1 -->", re.S)
+
+
+def apply_ads():
+    """Insert (or refresh) the ad blocks in every page. Safe to run repeatedly."""
+    count = 0
+    for dirpath, _, filenames in os.walk(ROOT):
+        if "index.html" not in filenames or "/." in dirpath or "/scripts" in dirpath:
+            continue
+        rel = os.path.relpath(dirpath, ROOT)
+        path = os.path.join(dirpath, "index.html")
+        with open(path, encoding="utf-8") as f:
+            t = f.read()
+        t = AD_MARK.sub("", t)
+        if ADS["native"] and rel.split(os.sep)[0] not in NO_NATIVE:
+            box = ('\n    <!-- ad:native -->\n    <aside class="ad-slot no-print" aria-label="Advertisement">'
+                   '<p class="ad-label">Advertisement</p>\n%s\n    </aside>\n    <!-- /ad:native -->' % ADS["native"])
+            for anchor in ('<nav class="pager"', '<section class="section" id="faq">',
+                           '<section class="section" id="quiz-faq">', '<section class="section" id="translator-faq">',
+                           '</main>'):
+                i = t.find(anchor)
+                if i != -1:
+                    line = t.rfind("\n", 0, i)
+                    t = t[:line] + box + t[line:]
+                    break
+        if ADS["smartlink"]:
+            link = ('<!-- ad:smartlink --><p class="sponsored no-print"><a href="%s" target="_blank" '
+                    'rel="sponsored nofollow noopener">Sponsored</a></p><!-- /ad:smartlink -->' % ADS["smartlink"])
+            t, n = re.subn(r"(</p>)(\s*(?:</div>\s*)?</footer>)", r"\1" + link.replace("\\", "\\\\") + r"\2", t, count=1)
+        if ADS["social"]:
+            t = t.replace("</body>", "  <!-- ad:social -->%s<!-- /ad:social -->\n</body>" % ADS["social"], 1)
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(t)
+        count += 1
+    return count
+
+
 def main():
     for script in ("hiragana", "katakana"):
         chart_page(script)
@@ -943,7 +994,8 @@ def main():
     katakana_quiz()
     update_hand_written()
     urls = sitemap()
-    print("Built %d URLs in sitemap.xml" % len(urls))
+    pages = apply_ads()
+    print("Built %d URLs in sitemap.xml; ads applied to %d pages" % (len(urls), pages))
 
 
 if __name__ == "__main__":
