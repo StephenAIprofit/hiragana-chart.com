@@ -942,9 +942,12 @@ ADS = {
                'src="https://bauval.org/21/5c2cfe4e3ff98da5883dca9ac6078266"></script>\n'
                '<div id="container-5c2cfe4e3ff98da5883dca9ac6078266"></div>'),
     # Social Bar: site-wide, loaded at the end of <body>
-    "social": '<script data-cfasync="false" src="https://bauval.org/14/279534a20f1ef3932b92981035fd79eb"></script>',
+    # Off: overlay ads hurt mobile UX and search. Original code:
+    # <script data-cfasync="false" src="https://bauval.org/14/279534a20f1ef3932b92981035fd79eb"></script>
+    "social": None,
     # Smartlink: a clearly labelled "Sponsored" link in the footer
-    "smartlink": "https://araplhn.org/4/e5b0d610cd28171b069e67d4611ca605",
+    # Off. Original link: https://araplhn.org/4/e5b0d610cd28171b069e67d4611ca605
+    "smartlink": None,
 }
 NO_NATIVE = {"about", "privacy"}
 AD_MARK = re.compile(r"\n?[ \t]*<!-- ad:(\w+) -->.*?<!-- /ad:\1 -->", re.S)
