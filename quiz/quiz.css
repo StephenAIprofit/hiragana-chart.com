@@ -78,6 +78,8 @@ footer { border-top: 1px solid var(--line); color: var(--muted); padding: 22px 0
 .tab.book { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 .book-icon { flex: none; }
 /* Ad slots */
-.ad-slot { margin: 24px 0; padding: 10px 12px 12px; border: 1px dashed var(--line); border-radius: 12px; background: var(--card, #fffdf8); }
+.ad-slot { display: none; margin: 24px 0; padding: 10px 12px 12px; border: 1px dashed var(--line); border-radius: 12px; background: var(--card, #fffdf8); }
+/* Show the slot only once Adsterra has put an ad in its container */
+.ad-slot:has([id^="container-"] > *) { display: block; }
 .ad-label { margin: 0 0 6px; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 .sponsored { font-size: 0.85rem; }
