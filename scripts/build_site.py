@@ -189,7 +189,13 @@ NAV = """<nav class="nav-links" aria-label="Site">
           <a href="/katakana-quiz">Katakana quiz</a>
         </div>
       </div>
-      <a href="/kanji-translator">Kanji Translator</a>
+      <div class="dropdown">
+        <button class="nav-btn" type="button">Tools ▾</button>
+        <div class="dropdown-menu">
+          <a href="/japanese-keyboard">Japanese keyboard</a>
+          <a href="/kanji-translator">Kanji translator</a>
+        </div>
+      </div>
       <div class="dropdown">
         <button class="nav-btn" type="button">Guides ▾</button>
         <div class="dropdown-menu">
@@ -208,7 +214,7 @@ HEADER = """<header class="wrap nav">
 
 FOOTER = """<footer>
     <div class="wrap">
-      <p class="site-banner"><a href="/kanji-translator">Kanji Translator</a><a href="/quiz">Hiragana Quiz</a><a href="/katakana-quiz">Katakana Quiz</a></p>
+      <p class="site-banner"><a href="/japanese-keyboard">Japanese Keyboard</a><a href="/kanji-translator">Kanji Translator</a><a href="/quiz">Hiragana Quiz</a><a href="/katakana-quiz">Katakana Quiz</a></p>
       <p><a href="/">Hiragana chart</a> · <a href="/katakana-chart">Katakana chart</a> · <a href="/hiragana">Hiragana stroke order</a> · <a href="/katakana">Katakana stroke order</a> · <a href="/yoon-chart">Yoon chart</a></p>
       <p><a href="/hiragana-quiz-guide">Hiragana Quiz guide</a> · <a href="/confusable-kana">Confusable kana</a> · <a href="/dakuten-yoon-guide">Dakuten and Yoon</a></p>
       <p><a href="/about">About</a> · <a href="/privacy">Privacy</a></p>
@@ -461,6 +467,7 @@ def chart_page(script):
       <ul class="next-steps">
         <li><strong>Combinations like {kya} and {sho}.</strong> The <a href="/yoon-chart">yoon chart</a> shows all 36 hiragana and katakana combinations side by side, with romaji.</li>
         <li><strong>Test yourself.</strong> Take the <a href="{quiz}">{name} quiz</a> to check you can read all 46 without the chart, then add dakuten and yoon.</li>
+        <li><strong>Need to type Japanese?</strong> The <a href="/japanese-keyboard">online Japanese keyboard</a> turns romaji into {name_l} as you type, with nothing to install.</li>
         <li><strong>Found a kanji you cannot read?</strong> <a href="/kanji-translator">Draw a kanji you cannot type</a>, or translate English to kanji, and see its reading and meaning.</li>
         <li><strong>Mixing up look-alikes?</strong> <a href="/confusable-kana">Confusable kana</a> compares pairs such as {pair}.</li>
       </ul>
@@ -486,7 +493,7 @@ def chart_page(script):
            dak_note=dak_note, yoon_note=yoon_note, rows=table_rows(script),
            links=stroke_links(script), faq=faq_body, footer=FOOTER,
            kya=to_script("き", script) + to_script("ゃ", script), sho=to_script("し", script) + to_script("ょ", script),
-           pair="ね, れ, and わ" if script == "hiragana" else "シ and ツ")
+           pair="ね, れ, and わ" if script == "hiragana" else "シ and ツ", name_l=name.lower())
     page = head(title, desc, path, jsonld, og_title, og_desc,
                 "%s Chart: all 46 %s characters with stroke order and audio" % (name, name.lower())) + body
     write("index.html" if script == "hiragana" else "katakana-chart/index.html", page)
@@ -860,6 +867,139 @@ def yoon_page():
     write("yoon-chart/index.html", head(title, desc, path, jsonld,
                                         og_alt="Yoon chart: all 36 hiragana and katakana combinations") + body)
 
+
+# --------------------------------------------------------------------------
+# Japanese keyboard ( /japanese-keyboard )
+# --------------------------------------------------------------------------
+KB_RULES = [
+    ("ん", "nn, or n before a consonant", "konnnichiha → こんにちは · shinbun → しんぶん"),
+    ("っ (small tsu)", "double the next consonant", "kitte → きって · zasshi → ざっし"),
+    ("ー (long vowel)", "- (hyphen)", "ko-hi- → こーひー"),
+    ("を", "wo", "honwo → ほんを"),
+    ("ぢ / づ", "di / du", "hanadi → はなぢ · tsuduku → つづく"),
+    ("Small kana", "x or l before it", "xya → ゃ · ltsu → っ"),
+    ("、 。 「 」", ", . [ ]", "hai. → はい。"),
+    ("Katakana", "Katakana button, or type in CAPITALS", "KO-HI- → コーヒー"),
+]
+KB_FAQ = [
+    ("Can I type kanji with this keyboard?", "No. It types hiragana and katakana only. Turning kana into kanji needs the large dictionary that a full Japanese input method has. To find out what a kanji means, draw it or type an English word in the <a href=\"/kanji-translator\">kanji translator</a>."),
+    ("Why did こんにちは come out as こんいちは?", "Because n followed by n makes ん, and the next i is read on its own. This is how Japanese keyboards on Windows, Mac, and phones work too. Type nn for ん when the next sound is a vowel, y, or n: konnnichiha gives こんにちは."),
+    ("Is my text saved or sent anywhere?", "Nothing is sent to a server. The text box keeps your text in this browser so it is still there if you reload the page. Press Clear to remove it."),
+    ("Does it work on a phone?", "Yes. Type romaji with your phone keyboard, or tap the kana keys below the text box. If your phone keeps capitalising the first letter, that letter turns into katakana; tap the kana keys or switch off auto-capitalisation."),
+]
+
+
+def keyboard_page():
+    path = "/japanese-keyboard"
+    title = "Japanese Keyboard Online: Type Hiragana and Katakana from Romaji"
+    desc = ("Free online Japanese keyboard: type romaji and get hiragana or katakana as you type, then copy it. "
+            "Kana keys, a romaji converter, and typing rules. Nothing to install.")
+    # on-screen keys in gojuon order
+    rows_html = []
+    for row, _, cells in ROWS:
+        keys = []
+        for r in cells:
+            if not r:
+                keys.append('<span class="kb-gap"></span>')
+                continue
+            e = next(x for x in ENTRIES if x["group"] == "basic" and x["romaji"] == r)
+            keys.append('<button class="kb-key" type="button" data-h="%s" data-k="%s">%s</button>' % (e["h"], e["k"], e["h"]))
+        rows_html.append("".join(keys))
+    fn_keys = "".join([
+        '<button class="kb-key kb-fn" type="button" data-act="daku" title="Add or remove dakuten">゛</button>',
+        '<button class="kb-key kb-fn" type="button" data-act="handaku" title="Add or remove handakuten">゜</button>',
+        '<button class="kb-key kb-fn" type="button" data-act="small" title="Make the last kana small">small</button>',
+        '<button class="kb-key kb-fn" type="button">ー</button>',
+        '<button class="kb-key kb-fn" type="button">、</button>',
+        '<button class="kb-key kb-fn" type="button">。</button>',
+        '<button class="kb-key kb-fn" type="button">「</button>',
+        '<button class="kb-key kb-fn" type="button">」</button>',
+        '<button class="kb-key kb-fn kb-wide" type="button">Space</button>',
+        '<button class="kb-key kb-fn kb-wide" type="button" data-act="back" aria-label="Backspace">⌫</button>',
+    ])
+    rules = "".join('<tr><td><span class="jp">%s</span></td><td><code>%s</code></td><td>%s</td></tr>' % r for r in KB_RULES)
+    faq = "\n".join('      <details><summary>%s</summary><p>%s</p></details>' % qa for qa in KB_FAQ)
+    jsonld = [faq_ld(KB_FAQ), breadcrumb([("Hiragana Chart", "/"), ("Japanese keyboard", path)]),
+              {"@context": "https://schema.org", "@type": "WebApplication", "name": "Japanese Keyboard Online",
+               "url": SITE + path, "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any",
+               "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}]
+    body = """
+<body data-script="hiragana">
+  {header}
+  <main class="wrap">
+    <p class="crumb"><a href="/">Hiragana chart</a> / Japanese keyboard</p>
+    <p class="kicker">Free · no install · no login</p>
+    <h1>Japanese Keyboard: Type Hiragana and Katakana Online</h1>
+    <p class="lede">Type romaji and it turns into kana as you type: <code>arigatou</code> becomes ありがとう. Copy the result into any app. Nothing to install.</p>
+
+    <section class="kb-box" aria-label="Japanese keyboard">
+      <div class="kb-bar">
+        <div class="script-switch" role="group" aria-label="Output">
+          <button class="script-btn" type="button" data-kb-script="hiragana" aria-pressed="true">Hiragana</button>
+          <button class="script-btn" type="button" data-kb-script="katakana" aria-pressed="false">Katakana</button>
+        </div>
+        <div class="kb-actions">
+          <button class="play" id="kb-copy" type="button">Copy</button>
+          <button class="play ghost" id="kb-clear" type="button">Clear</button>
+        </div>
+      </div>
+      <textarea id="kb-input" class="kb-input" rows="5" lang="ja" placeholder="Type romaji here: konnnichiha → こんにちは"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Type romaji, get kana"></textarea>
+      <p class="kb-meta"><span id="kb-count">0 characters</span> · Tip: type <code>nn</code> for ん, double a consonant for っ, and <code>-</code> for ー.</p>
+      <div class="kb-keys" aria-label="Kana keys">
+        {rows}
+        <div class="kb-fnrow">{fn}</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>How to type Japanese with romaji</h2>
+      <p>Most sounds are typed the way they are written in romaji: <code>ka</code> → か, <code>shi</code> → し, <code>tsu</code> → つ, <code>kya</code> → きゃ. These are the cases that catch people out:</p>
+      <table class="facts kb-rules"><thead><tr><th>To get</th><th>Type</th><th>Example</th></tr></thead><tbody>{rules}</tbody></table>
+      <p>Not sure how a kana is read? Check it on the <a href="/">hiragana chart</a> or the <a href="/katakana-chart">katakana chart</a>, and see combinations like きゃ on the <a href="/yoon-chart">yoon chart</a>.</p>
+    </section>
+
+    <section class="section" id="converter">
+      <h2>Romaji, hiragana, and katakana converter</h2>
+      <p>Paste a block of text and convert it in one go. Romaji here can be typed naturally: <code>konnichiha</code> gives こんにちは.</p>
+      <textarea id="conv-in" class="kb-input kb-small" rows="3" lang="ja" placeholder="Paste romaji, hiragana, or katakana" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Text to convert"></textarea>
+      <p class="actions">
+        <button class="play" type="button" data-conv="hiragana">To hiragana</button>
+        <button class="play" type="button" data-conv="katakana">To katakana</button>
+        <button class="play" type="button" data-conv="romaji">To romaji</button>
+      </p>
+      <textarea id="conv-out" class="kb-input kb-small" rows="3" lang="ja" readonly aria-label="Converted text"></textarea>
+      <p><button class="play ghost" id="conv-copy" type="button">Copy result</button></p>
+    </section>
+
+    <section class="section">
+      <h2>Add a Japanese keyboard to your device</h2>
+      <p>For everyday typing, including kanji, install the free Japanese input method that comes with your system. The menus can differ slightly between versions:</p>
+      <ul class="next-steps">
+        <li><strong>Windows:</strong> Settings → Time &amp; language → Language &amp; region → Add a language → Japanese.</li>
+        <li><strong>Mac:</strong> System Settings → Keyboard → Text Input → Edit → + → Japanese – Romaji.</li>
+        <li><strong>iPhone and iPad:</strong> Settings → General → Keyboard → Keyboards → Add New Keyboard → Japanese → Romaji.</li>
+        <li><strong>Android (Gboard):</strong> Gboard settings → Languages → Add keyboard → Japanese.</li>
+      </ul>
+      <p>The romaji rules above work the same way on all of them.</p>
+    </section>
+
+    <section class="section" id="faq">
+      <h2>Keyboard questions</h2>
+{faq}
+    </section>
+  </main>
+  {footer}
+  <script src="/nav.js"></script>
+  <script src="/vendor/wanakana.min.js"></script>
+  <script src="/japanese-keyboard/keyboard.js"></script>
+</body>
+</html>
+""".format(header=HEADER, rows="\n        ".join('<div class="kb-row">%s</div>' % r for r in rows_html),
+           fn=fn_keys, rules=rules, faq=faq, footer=FOOTER)
+    write("japanese-keyboard/index.html", head(title, desc, path, jsonld,
+                                               og_alt="Japanese keyboard: type romaji, get hiragana and katakana") + body)
+
 # --------------------------------------------------------------------------
 # Katakana quiz (derived from quiz/index.html)
 # --------------------------------------------------------------------------
@@ -924,7 +1064,7 @@ def sitemap():
     urls = [("/", "weekly", "1.0"), ("/katakana-chart", "weekly", "0.9"), ("/quiz", "weekly", "0.9"),
             ("/katakana-quiz", "weekly", "0.9"), ("/kanji-translator", "weekly", "0.9"),
             ("/hiragana", "monthly", "0.8"), ("/katakana", "monthly", "0.8"),
-            ("/yoon-chart", "monthly", "0.8"),
+            ("/yoon-chart", "monthly", "0.8"), ("/japanese-keyboard", "weekly", "0.9"),
             ("/hiragana-quiz-guide", "monthly", "0.8"), ("/confusable-kana", "monthly", "0.8"),
             ("/dakuten-yoon-guide", "monthly", "0.8"), ("/about", "monthly", "0.5"),
             ("/privacy", "yearly", "0.3")]
@@ -1005,6 +1145,7 @@ def main():
         for i, e in enumerate(ENTRIES):
             char_page(e, script, ENTRIES[i - 1] if i else None, ENTRIES[i + 1] if i + 1 < len(ENTRIES) else None)
     yoon_page()
+    keyboard_page()
     katakana_quiz()
     update_hand_written()
     urls = sitemap()
