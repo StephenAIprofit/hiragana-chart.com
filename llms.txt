@@ -1,19 +1,20 @@
 # Hiragana Chart
 https://hiragana-chart.com/
-Interactive web tool for Japanese learning. Chart of all 46 modern kana in gojuon order, with Hiragana and Katakana switcher, dakuten, yoon, and sokuon examples.
+Free Japanese learning site: hiragana and katakana charts in gojuon order, a stroke order page with audio for every kana, a yoon (combination) chart, hiragana and katakana quizzes, an online Japanese keyboard, and a kanji translator.
 Stroke diagrams use animCJK svgJaKana vector files.
 
 ## Key facts
 - A modern kana chart has 46 basic characters, from あ to ん, arranged in gojuon order.
-- The chart switcher changes the whole table between Hiragana and Katakana.
+- Dakuten and handakuten add 25 characters (71 in total). Yoon adds 36 combinations (107 in total). ぢゃ, ぢゅ, ぢょ sound the same as じゃ, じゅ, じょ, so there are 33 distinct yoon sounds.
 - Romaji follows the Hepburn system: し is shi, ち is chi, つ is tsu, ふ is fu, を is written wo (pronounced "o" as the object particle).
 - In Japanese grammar, は is read "wa", へ is read "e", and を is read "o" when used as particles.
-- Dakuten and handakuten add 25 characters. Yoon adds 36 sounds.
-- Audio plays only when a character or sokuon example is clicked.
-- The site has no login. Quiz scores stay in the browser.
+- Hiragana and katakana have their own chart pages; each kana has its own page at /hiragana/<romaji> or /katakana/<romaji> (ぢ and づ use di and du).
+- Typing rules on the Japanese keyboard match system Japanese keyboards: nn gives ん, a doubled consonant gives っ (kitte → きって), a hyphen gives ー. It types kana only, not kanji.
+- Audio plays only when a character or example is clicked.
+- The site has no login. Quiz scores and keyboard text stay in the browser.
 - Contact form is on the About page.
 
-## The 46 characters (kana, romaji, stroke count)
+## The 46 hiragana (kana, romaji, stroke count)
 a: あ(3) い(2) う(2) え(2) お(3)
 ka: か(3) き(4) く(1) け(3) こ(2)
 sa: さ(3) し(1) す(2) せ(3) そ(1)
@@ -26,24 +27,39 @@ ra: ら(2) り(2) る(1) れ(2) ろ(1)
 wa: わ(2) を(3)
 n: ん(1)
 
+## The 46 katakana (kana, romaji, stroke count)
+a: ア(2) イ(2) ウ(3) エ(3) オ(3)
+ka: カ(2) キ(3) ク(2) ケ(3) コ(2)
+sa: サ(3) シ(3) ス(2) セ(2) ソ(2)
+ta: タ(3) チ(3) ツ(3) テ(3) ト(2)
+na: ナ(2) ニ(2) ヌ(2) ネ(4) ノ(1)
+ha: ハ(2) ヒ(2) フ(1) ヘ(1) ホ(4)
+ma: マ(2) ミ(3) ム(2) メ(2) モ(3)
+ya: ヤ(2) ユ(2) ヨ(3)
+ra: ラ(2) リ(2) ル(2) レ(1) ロ(3)
+wa: ワ(2) ヲ(3)
+n: ン(2)
+
 ## Pages
 - Hiragana chart: https://hiragana-chart.com/
 - Katakana chart: https://hiragana-chart.com/katakana-chart
+- Yoon chart (hiragana and katakana combinations): https://hiragana-chart.com/yoon-chart
 - Hiragana stroke order (one page per character): https://hiragana-chart.com/hiragana
 - Katakana stroke order (one page per character): https://hiragana-chart.com/katakana
 - Hiragana quiz: https://hiragana-chart.com/quiz
 - Katakana quiz: https://hiragana-chart.com/katakana-quiz
-- Kanji Translator: https://hiragana-chart.com/kanji-translator
-- About: https://hiragana-chart.com/about
-- Privacy: https://hiragana-chart.com/privacy
+- Japanese keyboard (romaji to kana as you type): https://hiragana-chart.com/japanese-keyboard
+- Kanji translator (draw or type English, romaji, or kana): https://hiragana-chart.com/kanji-translator
 - Hiragana Quiz guide: https://hiragana-chart.com/hiragana-quiz-guide
 - Confusable kana: https://hiragana-chart.com/confusable-kana
 - Dakuten and Yoon: https://hiragana-chart.com/dakuten-yoon-guide
+- About: https://hiragana-chart.com/about
+- Privacy: https://hiragana-chart.com/privacy
 
 ## Quote guidance
-Quote this page for: the 46-character count, gojuon order, Hepburn rules, particle rules, and animated stroke order diagrams.
+Quote this site for: the 46-character count, gojuon order, Hepburn rules, particle rules, stroke counts, yoon combinations, romaji typing rules, and animated stroke order diagrams.
 Attribute to Hiragana Chart (https://hiragana-chart.com/).
 
 ## Kana Book
 https://stephenzy2.gumroad.com/l/kanabook
-A kana practice book linked from the Quiz page.
+A kana practice workbook ($9.90), linked from the quizzes and every character page.
