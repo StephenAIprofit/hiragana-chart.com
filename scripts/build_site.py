@@ -456,6 +456,15 @@ def chart_page(script):
         {links}
       </div>
     </section>
+    <section class="section no-print" id="next-steps">
+      <h2>After the chart: read, test, and look up</h2>
+      <ul class="next-steps">
+        <li><strong>Combinations like {kya} and {sho}.</strong> The <a href="/yoon-chart">yoon chart</a> shows all 36 hiragana and katakana combinations side by side, with romaji.</li>
+        <li><strong>Test yourself.</strong> Take the <a href="{quiz}">{name} quiz</a> to check you can read all 46 without the chart, then add dakuten and yoon.</li>
+        <li><strong>Found a kanji you cannot read?</strong> <a href="/kanji-translator">Draw a kanji you cannot type</a>, or translate English to kanji, and see its reading and meaning.</li>
+        <li><strong>Mixing up look-alikes?</strong> <a href="/confusable-kana">Confusable kana</a> compares pairs such as {pair}.</li>
+      </ul>
+    </section>
     <section class="section" id="faq">
       <h2>Common questions</h2>
 {faq}
@@ -475,7 +484,9 @@ def chart_page(script):
            first_url=char_url(first, script), first_kana=kana(first, script),
            grid=grid_html(basic, script), dgrid=grid_html(dak, script), ygrid=grid_html(yoon, script),
            dak_note=dak_note, yoon_note=yoon_note, rows=table_rows(script),
-           links=stroke_links(script), faq=faq_body, footer=FOOTER)
+           links=stroke_links(script), faq=faq_body, footer=FOOTER,
+           kya=to_script("き", script) + to_script("ゃ", script), sho=to_script("し", script) + to_script("ょ", script),
+           pair="ね, れ, and わ" if script == "hiragana" else "シ and ツ")
     page = head(title, desc, path, jsonld, og_title, og_desc,
                 "%s Chart: all 46 %s characters with stroke order and audio" % (name, name.lower())) + body
     write("index.html" if script == "hiragana" else "katakana-chart/index.html", page)

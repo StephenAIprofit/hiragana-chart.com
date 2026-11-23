@@ -199,3 +199,5 @@ a.quiz-cta { display: inline-block; white-space: nowrap; text-decoration: none; 
 .ad-slot:has([id^="container-"] > *) { display: block; }
 .ad-label { margin: 0 0 6px; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 .sponsored { font-size: 0.85rem; }
+.next-steps { padding-left: 20px; }
+.next-steps li { margin: 8px 0; }
